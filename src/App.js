@@ -4,10 +4,7 @@ function App() {
   return (
     <div>
       {/* // Tetris Div */}
-      <div>
-        box
-        <BoxGrid/>
-      </div>
+      <BoxGrid/>
       {/* Tetris Control Div */}
       <div>
 
