@@ -1,5 +1,6 @@
 .grid-container {
     width: fit-content;
+    height: fit-content;
     border-right: 1px solid #000;
     border-bottom: 1px solid #000;
 }
