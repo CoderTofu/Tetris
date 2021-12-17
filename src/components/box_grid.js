@@ -1,4 +1,5 @@
 import "../styles/box_grid_style.css"
+import { BLOCK_TYPES } from "./block_types";
 
 export default function BoxGrid(props) {
     return (
@@ -9,70 +10,6 @@ export default function BoxGrid(props) {
 }
 
 function Boxes() {
-    let blockTypes = {
-        square: [
-            {
-                column: "A",
-                row: "3"
-            },
-            {
-                column: "A",
-                row: "4"
-            },
-            {
-                column: "B",
-                row: "3"
-            },
-            {
-                column: "B",
-                row: "4"
-            }
-        ],
-        Sblock: [
-            {
-                column: "A",
-                row: "5"
-            },
-            {
-                column: "A",
-                row: "4"
-            },
-            {
-                column: "B",
-                row: "3"
-            },
-            {
-                column: "B",
-                row: "4"
-            }
-        ],
-        Zblock: [
-            {
-                column: "A",
-                row: "2"
-            },
-            {
-                column: "A",
-                row: "3"
-            },
-            {
-                column: "B",
-                row: "3"
-            },
-            {
-                column: "B",
-                row: "4"
-            }
-        ],
-        Lblock: [],
-        Jblock: [],
-        Iblock: [],
-        Tblock: []
-    }
-    // Add rotations example:
-    // Lblock: [[{}, {}], [{}, {}]]
-    // The two arrays will be the two types of rotation you can do to the block
-
     const GRID_LENGTH = 6;
     let row = [];
 
@@ -91,8 +28,8 @@ function Boxes() {
         gridContent.push(
            <div key={alphabet_index[i]} className="box-column">
                {row.map((box, index) => {
-                   const result = blockTypes.Zblock.find(({ row, column }) => {
-                       return row == index + 1 && column === alphabet_index[i]
+                   const result = BLOCK_TYPES.Tblock[1].find(({ row, column }) => {
+                       return row === index + 1 && column === alphabet_index[i]
                    });
                    if (result) {
                        return <div key={`box_fill-${index}`} className="box filled"></div>
