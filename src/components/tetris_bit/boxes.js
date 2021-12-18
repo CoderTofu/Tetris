@@ -1,17 +1,8 @@
-import "../styles/box_grid_style.css"
-import { BLOCK_TYPES } from "./block_types";
+import { BLOCK_TYPES } from "../block_types";
 import randomBlock from "../random/random_block";
 import randomForm from "../random/random_form";
 
-export default function BoxGrid(props) {
-    return (
-        <div className="grid-container">
-            <Boxes />
-        </div>
-    )
-}
-
-function Boxes() {
+export default function Boxes() {
     const GRID_LENGTH = 6;
     let row = [];
 
@@ -30,18 +21,18 @@ function Boxes() {
     let gridContent = [];
     for (let i = 0; i < GRID_HEIGHT; i++) {
         gridContent.push(
-           <div key={alphabet_index[i]} className="box-column">
-               {row.map((box, index) => {
-                   const result = randomType[randomFormIndex].find(({ row, column }) => {
-                       return row === index + 1 && column === alphabet_index[i]
-                   });
-                   if (result) {
-                       return <div key={`box_fill-${index}`} className="box filled"></div>
-                   } else {
+            <div key={alphabet_index[i]} className="box-column">
+                {row.map((box, index) => {
+                    const result = randomType[randomFormIndex].find(({ row, column }) => {
+                        return row === index + 1 && column === alphabet_index[i]
+                    });
+                    if (result) {
+                        return <div key={`box_fill-${index}`} className="box filled"></div>
+                    } else {
                         return box
-                   }
+                    }
                 })}
-           </div>
+            </div>
         )
     }
     return gridContent

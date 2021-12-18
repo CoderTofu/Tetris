@@ -1,5 +1,5 @@
-import BoxGrid from "./components/box_grid";
-import GameControl from "./components/game_control"
+import BoxGrid from "./components/main/box_grid";
+import GameControl from "./components/main/game_control"
 import { useState } from 'react';
 
 function App() {
