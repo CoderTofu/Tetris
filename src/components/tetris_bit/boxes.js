@@ -1,18 +1,10 @@
 import { BLOCK_TYPES } from "../block_types";
 import randomBlock from "../random/random_block";
 import randomForm from "../random/random_form";
+import { useState } from 'react';
 
-export default function Boxes(props) {
-    // Props
-    let currentBlock = props.current;
-
-    let updateCurrentBlock = props.updateBlock;
-
-    function updateBlockFunction(update) {
-        updateCurrentBlock(a => {
-            a = update
-        })
-    }
+export default function Boxes() {
+    let [currentBlock, updateCurrentBlock] = useState([])
 
     const GRID_LENGTH = 6;
     let row = [];
@@ -31,8 +23,9 @@ export default function Boxes(props) {
     let gridContent = [];
     let randomFormIndex = randomForm();
 
+
     // If we don't have a current block
-    if (currentBlock.length === 0) {
+    if (currentBlock.length < 4) {
         for (let i = 0; i < GRID_HEIGHT; i++) {
             gridContent.push(
                 <div key={alphabet_index[i]} className="box-column">
@@ -41,7 +34,7 @@ export default function Boxes(props) {
                             return row === index + 1 && column === alphabet_index[i]
                         });
                         if (result) {
-                            // updateBlockFunction(result)
+                            updateCurrentBlock([...currentBlock, result])
                             return <div key={`box_fill-${index}`} className="box filled"></div>
                         } else {
                             return box
@@ -50,8 +43,7 @@ export default function Boxes(props) {
                 </div>
             )
         }
-    } 
-    
+    }
     // If we currently have a block
     else {
         for (let i = 0; i < GRID_HEIGHT; i++) {
@@ -62,7 +54,6 @@ export default function Boxes(props) {
                             return row === index + 1 && column === alphabet_index[i]
                         });
                         if (result) {
-                            // updateBlockFunction(result)
                             return <div key={`box_fill-${index}`} className="box filled"></div>
                         } else {
                             return box
@@ -72,5 +63,7 @@ export default function Boxes(props) {
             )
         }
     }
+
+    console.log(currentBlock)
     return gridContent
 }

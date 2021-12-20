@@ -1,15 +1,9 @@
 import "../../styles/box_grid_style.css"
-import Boxes from "../tetris_bit/boxes"
+import Boxes from "../tetris_bit/boxesNew"
 import WelcomeToTetris from "../tetris_bit/welcome";
-import { useEffect, useState } from "react";
 
 export default function BoxGrid(props) {
-    let [currentBlock, updateCurrentBlock] = useState([]);
     let condition = props.gameCondition;
-
-    // useEffect(() => {
-    //     console.log(currentBlock)
-    // }, [currentBlock])
 
     /* 
      * Every time currentBlock is called we call a function that makes it update.
@@ -27,7 +21,7 @@ export default function BoxGrid(props) {
     if (condition === "during") {
         return (
             <div className="grid-container">
-                {<Boxes current={currentBlock} updateBlock={updateCurrentBlock}/>}
+                {<Boxes />}
             </div>
         )
     }
