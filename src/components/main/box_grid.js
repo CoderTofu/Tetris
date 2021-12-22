@@ -1,5 +1,5 @@
 import "../../styles/box_grid_style.css"
-import Boxes from "../tetris_bit/boxesNew"
+import Boxes from "../tetris_bit/boxes"
 import WelcomeToTetris from "../tetris_bit/welcome";
 
 export default function BoxGrid(props) {
