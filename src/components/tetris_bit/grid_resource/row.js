@@ -1,4 +1,4 @@
-export default function Row() {
+function Row() {
     const GRID_LENGTH = 6;
 
     let row = [];
@@ -9,3 +9,5 @@ export default function Row() {
     }
     return row
 }
+
+export default Row
