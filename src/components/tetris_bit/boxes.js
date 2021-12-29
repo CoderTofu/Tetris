@@ -13,8 +13,17 @@ export default function Boxes() {
 
     // If we are not holding a block at the moment then we send a newly generated block.
     useEffect(() => {
-        // Indexing
-        const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        const ALPHABET = [
+            "A", "B", "C", 
+            "D", "E", "F", 
+            "G", "H", "I", 
+            "J", "K", "L", 
+            "M", "N", "O", 
+            "P", "Q", "R", 
+            "S", "T", "U", 
+            "V", "W", "X", 
+            "Y", "Z"
+        ];
 
         if (!hold) {
             // Random variables we need to be random.
@@ -41,10 +50,3 @@ export default function Boxes() {
         </>
     )
 }
-
-
-
-/** DECEMBER 22, 2021
- * Look for a way to accurately fill the boxes.
- * In a way that is also able to pass in the boxes that were filled.
- */
