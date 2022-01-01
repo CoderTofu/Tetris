@@ -42,16 +42,17 @@ export default function Boxes() {
                     return block.column
                 })
 
-                let collisionResult;
-                let collision = currentBlock.map(block => {
+                // Checks for collision
+                let collisionResult = false;
+                currentBlock.map(block => {
                     let next = ALPHABET.indexOf(block.column) + 1;
                     let result = filledBoxes.find(({ row, column }) => {
                         return row === block.row + 1 && column === ALPHABET[next]
                     });
                     if (result) {
                         collisionResult = true;
-                        return result
                     }
+                    return null
                 })
 
                 if (columns.includes(ALPHABET[GRID_MAX_HEIGHT - FALL_OFFSET]) || collisionResult) {
