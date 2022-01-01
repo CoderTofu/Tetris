@@ -14,3 +14,8 @@ A small game project made to showcase my React skills.
     Current block will be updated to none.
     
     Then new block will be generated.
+
+### Movement
+    Pressing left and right keys will change direction
+    
+    Pressing up key will change block rotation

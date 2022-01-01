@@ -16,6 +16,10 @@
     border-left: 1px solid #000;
 }
 
+.box.current {
+    background-color: gray;
+}
+
 .box.filled {
     background-color: red;
 }

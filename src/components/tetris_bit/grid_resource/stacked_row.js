@@ -31,9 +31,12 @@ function StackedRow(props) {
                     const current_grid_result = CURRENT_GRID.find(({ row, column }) => {
                         return row === rowIndex + 1 && column === ALPHABET[i]
                     });
-                    if (current_block_result || current_grid_result) {
+                    if (current_block_result) {
+                        return <div key={`box_fill-${rowIndex}`} className="box current"></div>
+                    } if (current_grid_result) {
                         return <div key={`box_fill-${rowIndex}`} className="box filled"></div>
-                    } else {
+                    }
+                    else {
                         return box
                     }
                 })}
