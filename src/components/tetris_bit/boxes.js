@@ -9,6 +9,7 @@ import randomForm from "../random/random_form";
 export default function Boxes() {
     // This is our current block which is empty at first.
     let [hold, setHold] = useState(false);
+    let [filledBoxes, updateFilledBoxes] = useState([]);
     let [currentBlock, updateCurrentBlock] = useState([]);
 
     // If we are not holding a block at the moment then we send a newly generated block.
@@ -25,28 +26,58 @@ export default function Boxes() {
             "Y", "Z"
         ];
 
+        const GRID_MAX_HEIGHT = 9;
+        const FALL_OFFSET = 1;
+
         if (!hold) {
             // Random variables we need to be random.
             let randomType = randomBlock(BLOCK_TYPES);
             let randomFormIndex = randomForm();
             updateCurrentBlock(randomType[randomFormIndex])
+            // Set hold to true
             setHold(!hold)
-        } else {
+        } else if (hold) {
             setTimeout(() => {
-                updateCurrentBlock(currentBlock.map(block => {
-                    let next = ALPHABET.indexOf(block.column) + 1; 
-                    return {
-                        column: ALPHABET[next],
-                        row: block.row
+                let columns = currentBlock.map(block => {
+                    return block.column
+                })
+
+                let collisionResult;
+                let collision = currentBlock.map(block => {
+                    let next = ALPHABET.indexOf(block.column) + 1;
+                    let result = filledBoxes.find(({ row, column }) => {
+                        return row === block.row + 1 && column === ALPHABET[next]
+                    });
+                    if (result) {
+                        collisionResult = true;
+                        return result
                     }
-                }));
-            }, 1000)
+                })
+
+                if (columns.includes(ALPHABET[GRID_MAX_HEIGHT - FALL_OFFSET]) || collisionResult) {
+                    // Set hold to false
+                    setHold(!hold)
+                    updateFilledBoxes([
+                        ...filledBoxes,
+                        ...currentBlock
+                    ])
+                    collisionResult = false
+                } else {
+                    updateCurrentBlock(currentBlock.map(block => {
+                        let next = ALPHABET.indexOf(block.column) + 1;
+                        return {
+                            column: ALPHABET[next],
+                            row: block.row
+                        }
+                    })); 
+                }
+            }, 500)
         }
-    }, [hold, currentBlock])
+    }, [hold, currentBlock, filledBoxes])
 
     return (
         <>
-            <StackedRow block={currentBlock} row={Row()}/>
+            <StackedRow block={currentBlock} grid={filledBoxes} row={Row()}/>
         </>
     )
 }
