@@ -1,39 +1,84 @@
+import Row from "./grid_resource/row";
+import StackedRow from "./grid_resource/stacked_row";
+import { useState, useEffect } from 'react';
+
 import { BLOCK_TYPES } from "../block_types";
 import randomBlock from "../random/random_block";
 import randomForm from "../random/random_form";
 
 export default function Boxes() {
-    const GRID_LENGTH = 6;
-    let row = [];
+    // This is our current block which is empty at first.
+    let [hold, setHold] = useState(false);
+    let [filledBoxes, updateFilledBoxes] = useState([]);
+    let [currentBlock, updateCurrentBlock] = useState([]);
 
-    // Push boxes to make a row.
-    for (let i = 0; i < GRID_LENGTH; i++) {
-        row.push(
-            <div key={i} className="box"></div>
-        )
-    }
+    // If we are not holding a block at the moment then we send a newly generated block.
+    useEffect(() => {
+        const ALPHABET = [
+            "A", "B", "C", 
+            "D", "E", "F", 
+            "G", "H", "I", 
+            "J", "K", "L", 
+            "M", "N", "O", 
+            "P", "Q", "R", 
+            "S", "T", "U", 
+            "V", "W", "X", 
+            "Y", "Z"
+        ];
 
-    // Stack rows on top of each other to make columns.
-    const GRID_HEIGHT = 9;
-    const alphabet_index = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
-    let randomType = randomBlock(BLOCK_TYPES);
-    let randomFormIndex = randomForm()
-    let gridContent = [];
-    for (let i = 0; i < GRID_HEIGHT; i++) {
-        gridContent.push(
-            <div key={alphabet_index[i]} className="box-column">
-                {row.map((box, index) => {
-                    const result = randomType[randomFormIndex].find(({ row, column }) => {
-                        return row === index + 1 && column === alphabet_index[i]
+        const GRID_MAX_HEIGHT = 9;
+        const FALL_OFFSET = 1;
+
+        if (!hold) {
+            // Random variables we need to be random.
+            let randomType = randomBlock(BLOCK_TYPES);
+            let randomFormIndex = randomForm();
+            updateCurrentBlock(randomType[randomFormIndex])
+            // Set hold to true
+            setHold(!hold)
+        } else if (hold) {
+            setTimeout(() => {
+                let columns = currentBlock.map(block => {
+                    return block.column
+                })
+
+                // Checks for collision
+                let collisionResult = false;
+                currentBlock.map(block => {
+                    let next = ALPHABET.indexOf(block.column) + 1;
+                    let result = filledBoxes.find(({ row, column }) => {
+                        return row === block.row + 1 && column === ALPHABET[next]
                     });
                     if (result) {
-                        return <div key={`box_fill-${index}`} className="box filled"></div>
-                    } else {
-                        return box
+                        collisionResult = true;
                     }
-                })}
-            </div>
-        )
-    }
-    return gridContent
+                    return null
+                })
+
+                if (columns.includes(ALPHABET[GRID_MAX_HEIGHT - FALL_OFFSET]) || collisionResult) {
+                    // Set hold to false
+                    setHold(!hold)
+                    updateFilledBoxes([
+                        ...filledBoxes,
+                        ...currentBlock
+                    ])
+                    collisionResult = false
+                } else {
+                    updateCurrentBlock(currentBlock.map(block => {
+                        let next = ALPHABET.indexOf(block.column) + 1;
+                        return {
+                            column: ALPHABET[next],
+                            row: block.row
+                        }
+                    })); 
+                }
+            }, 500)
+        }
+    }, [hold, currentBlock, filledBoxes])
+
+    return (
+        <>
+            <StackedRow block={currentBlock} grid={filledBoxes} row={Row()}/>
+        </>
+    )
 }
