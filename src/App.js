@@ -3,7 +3,7 @@ import GameControl from "./components/main/game_control"
 import { useState } from 'react';
 
 function App() {
-  let [gameState, changeGameState] = useState("pending")
+  let [gameState, changeGameState] = useState("pending");
   /* gameState = [pending, during, after] */
 
   return (
