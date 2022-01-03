@@ -11,7 +11,8 @@ export default function GameControl(props) {
     function resetFunction() {
         changeGameState(a => a = "pending");
         updateFilledBoxes([]);
-        updateCurrentBlock([])
+        updateCurrentBlock([]);
+        console.log('cleared')
     }
 
     return (
