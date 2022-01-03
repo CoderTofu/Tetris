@@ -6,11 +6,14 @@ import { BLOCK_TYPES } from "../block_types";
 import randomBlock from "../random/random_block";
 import randomForm from "../random/random_form";
 
-export default function Boxes() {
+export default function Boxes(props) {
     // This is our current block which is empty at first.
     let [hold, setHold] = useState(false);
-    let [filledBoxes, updateFilledBoxes] = useState([]);
-    let [currentBlock, updateCurrentBlock] = useState([]);
+
+    // Passed from App to GameControl and Boxgrid
+    // And from BoxGrid to Boxes
+    let [filledBoxes, updateFilledBoxes] = props.filledState;
+    let [currentBlock, updateCurrentBlock] = props.currentBlockState;
 
     // If we are not holding a block at the moment then we send a newly generated block.
     useEffect(() => {
@@ -74,7 +77,7 @@ export default function Boxes() {
                 }
             }, 500)
         }
-    }, [hold, currentBlock, filledBoxes])
+    }, [hold, currentBlock, updateCurrentBlock, filledBoxes, updateFilledBoxes])
 
     return (
         <>
