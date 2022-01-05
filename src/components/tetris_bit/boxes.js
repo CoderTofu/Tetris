@@ -9,7 +9,7 @@ import gameStop from "./game_stop";
 
 export default function Boxes(props) {
     // This is our current block which is empty at first.
-    let [hold, setHold] = useState(false);
+    let [holding, setHold] = useState(false);
 
     // Passed from App to GameControl and Boxgrid
     // And from BoxGrid to Boxes
@@ -18,83 +18,64 @@ export default function Boxes(props) {
 
     // If we are not holding a block at the moment then we send a newly generated block.
     useEffect(() => {
+        const GRID_MAX_HEIGHT = 9;
+        const FALL_OFFSET = 1;
         const ALPHABET = [
-            "A", "B", "C", 
-            "D", "E", "F", 
-            "G", "H", "I", 
-            "J", "K", "L", 
-            "M", "N", "O", 
-            "P", "Q", "R", 
-            "S", "T", "U", 
-            "V", "W", "X", 
+            "A", "B", "C",
+            "D", "E", "F",
+            "G", "H", "I",
+            "J", "K", "L",
+            "M", "N", "O",
+            "P", "Q", "R",
+            "S", "T", "U",
+            "V", "W", "X",
             "Y", "Z"
         ];
 
-        const GRID_MAX_HEIGHT = 9;
-        const GRID_MAX_LENGTH = 6;
-        const FALL_OFFSET = 1;
-
-        if (!hold) {
+        // If we don't have a block at the moment then...
+        if (holding === false) {
             // Random variables we need to be random.
             let randomType = randomBlock(BLOCK_TYPES);
             let randomFormIndex = randomForm();
-            updateCurrentBlock(randomType[randomFormIndex])
-            // Set hold to true
-            setHold(!hold)
-        } else if (hold) {
+            // Generate a new block
+            updateCurrentBlock(randomType[randomFormIndex]);
+            // We now have a block
+            setHold(true);
+        } else {
             setTimeout(() => {
                 let columns = currentBlock.map(block => {
-                    return block.column
-                })
+                    return block.column;
+                });
 
-                // Checks for collision
-                let collisionResult = false;
-                currentBlock.map(block => {
-                    let next = ALPHABET.indexOf(block.column) + 1;
-                    let result = filledBoxes.find(({ row, column }) => {
-                        return row === block.row + 1 && column === ALPHABET[next]
+                const collisionResult = () => {
+                    let filledConjoined = filledBoxes.map(block => {
+                        return `${block.column}${block.row}`
                     });
-                    if (result) {
-                        collisionResult = true;
+                    let currentConjoined = currentBlock.map(block => {
+                        let next = ALPHABET.indexOf(block.column) + 1;
+                        return `${block.column}${block.row}` && `${ALPHABET[next]}${block.row}`
+                    });
+
+                    if (filledConjoined.length === 0 || currentConjoined.length === 0) return false
+                    for (let i = 0; i < filledConjoined.length; i++) {
+                        for (let j = 0; j < currentConjoined.length; j++) {
+                            if (filledConjoined[i] === currentConjoined[j]) {
+                                return true;
+                            }
+                        }
                     }
-                    return null
-                })
+                    return false;
+                }
 
-                let ending = gameStop(filledBoxes);
-
-                /**
-                 * Bug Report:
-                 * Some blocks manage to phase to each others at their corners.
-                 * DevReset is not reseting the grid when grid is full???????
-                 */
-
-                // const collisionResult = () => {
-                //     // Loop for currentBlock
-                //     for (let i = 0; i < currentBlock.length; i++) {
-                //         // Loop for filledBoxes
-                //         for (let j = 0; j < filledBoxes.length; j++) {
-                //             // Compare the element of each and
-                //             // every element from both of the
-                //             // arrays
-                //             if (currentBlock[i] === filledBoxes[j]) {
-                //                 // Return if common element found
-                //                 return true;
-                //             }
-                //         }
-                //     }
-                //     // Return if no common element exist
-                //     return false;
-                // }
-
-                if (columns.includes(ALPHABET[GRID_MAX_HEIGHT - FALL_OFFSET]) || collisionResult) {
-                    // Set hold to false
-                    setHold(!hold)
+                if (columns.includes(ALPHABET[GRID_MAX_HEIGHT - FALL_OFFSET]) || collisionResult()) {
+                    // Now, we don't have a block
+                    setHold(false)
                     updateFilledBoxes([
                         ...filledBoxes,
                         ...currentBlock
-                    ])
-                    collisionResult = false
+                    ]);
                 } else {
+                    if (collisionResult()) return
                     updateCurrentBlock(currentBlock.map(block => {
                         let next = ALPHABET.indexOf(block.column) + 1;
                         return {
@@ -105,7 +86,7 @@ export default function Boxes(props) {
                 }
             }, 500)
         }
-    }, [currentBlock, filledBoxes, hold, updateCurrentBlock, updateFilledBoxes])
+    }, [filledBoxes, holding, updateCurrentBlock, updateFilledBoxes, currentBlock])
 
     return (
         <>
