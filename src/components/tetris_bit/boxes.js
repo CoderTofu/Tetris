@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { BLOCK_TYPES } from "../block_types";
 import randomBlock from "../random/random_block";
 import randomForm from "../random/random_form";
-import gameStop from "./game_stop";
 
 export default function Boxes(props) {
     // This is our current block which is empty at first.
@@ -31,6 +30,29 @@ export default function Boxes(props) {
             "V", "W", "X",
             "Y", "Z"
         ];
+
+        const shouldGameEnd = () => {
+            let ans = false;
+
+            const forbidden = ["A2", "A3", "A4", "A5"];
+
+            const conjoined = filledBoxes.map(box => {
+                return `${box.column}${box.row}`
+            }).sort()
+
+            for (let i = 0; i < forbidden.length; i++) {
+                if (conjoined.includes(forbidden[i])) {
+                    ans = true
+                }
+            }
+
+            return ans
+        }
+
+        if (shouldGameEnd()) {
+            updateFilledBoxes([])
+            return
+        }
 
         // If we don't have a block at the moment then...
         if (holding === false) {
