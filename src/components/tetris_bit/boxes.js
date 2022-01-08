@@ -17,6 +17,7 @@ export default function Boxes(props) {
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
 
     let rowMovement = 0;
+    let blockIndex = 0;
     const directionHandler = ({ key }) => {
         let input = String(key);
         switch (input) {
@@ -26,6 +27,9 @@ export default function Boxes(props) {
             case "ArrowRight":
                 rowMovement = 1;
             break;
+            // case "ArrowUp":
+            //     blockIndex = 1;
+            // break;
             default: 
                 return
         }
@@ -51,7 +55,6 @@ export default function Boxes(props) {
 
         // Random variables we need to be random to make new blocks.
         let randomType = randomBlock(BLOCK_TYPES);
-        let randomFormIndex = randomForm();
 
         const shouldGameEnd = () => {
             let ans = false;
@@ -79,7 +82,7 @@ export default function Boxes(props) {
         // If we don't have a block at the moment then...
         if (holding === false) {
             // Generate a new block
-            updateCurrentBlock(randomType[randomFormIndex]);
+            updateCurrentBlock(randomType[blockIndex]);
             // We now have a block
             setHold(true);
         } else {
@@ -108,7 +111,7 @@ export default function Boxes(props) {
                     return false;
                 }
 
-                const mockUp = () => {
+                const moveCollision = () => {
                     let currentConjoined = currentBlock.map(block => {
                         let next = ALPHABET.indexOf(block.column) + 1;
                         return `${block.column}${block.row}` && `${ALPHABET[next]}${block.row + rowMovement}`
@@ -118,16 +121,16 @@ export default function Boxes(props) {
                         return `${block.column}${block.row}`
                     });
 
-                    let nonozones = [
+                    let negativeZones = [
                         "A0", "B0", "C0", "D0", "E0", "F0", "G0", "H0", "I0",
                         "A7", "B7", "C7", "D7", "E7", "F7", "G7", "H7", "I7"
                     ]
 
-                    let ekis = nonozones.concat(filledConjoined).sort()
+                    let filled = negativeZones.concat(filledConjoined).sort()
 
                     if (currentConjoined.length === 0) return false
                     for (let i = 0; i < currentConjoined.length; i++) {
-                        if (ekis.includes(currentConjoined[i])) return true
+                        if (filled.includes(currentConjoined[i])) return true
                     }    
                     
                     return false;
@@ -145,7 +148,7 @@ export default function Boxes(props) {
                     updateCurrentBlock(currentBlock.map(block => {
                         let nextColumn = ALPHABET.indexOf(block.column) + 1;
                         let nextRow = block.row + rowMovement;
-                        if (mockUp()) nextRow = block.row
+                        if (moveCollision()) nextRow = block.row
                         return {
                             column: ALPHABET[nextColumn],
                             row: nextRow
