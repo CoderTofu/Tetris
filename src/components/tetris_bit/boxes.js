@@ -3,6 +3,7 @@ import StackedRow from "./grid_resource/stacked_row";
 import { useState, useEffect } from 'react';
 
 import { BLOCK_TYPES } from "../block_types";
+import { useEventListener } from "./event_listener";
 import randomBlock from "../random/random_block";
 import randomForm from "../random/random_form";
 
@@ -14,6 +15,23 @@ export default function Boxes(props) {
     // And from BoxGrid to Boxes
     let [filledBoxes, updateFilledBoxes] = props.filledState;
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
+
+    let rowMovement = 0;
+    const directionHandler = ({ key }) => {
+        let input = String(key);
+        switch (input) {
+            case "ArrowLeft":
+                rowMovement = -1;
+            break;
+            case "ArrowRight":
+                rowMovement = 1;
+            break;
+            default: 
+                return
+        }
+    };  
+
+    useEventListener("keydown", directionHandler);
 
     // If we are not holding a block at the moment then we send a newly generated block.
     useEffect(() => {
@@ -30,6 +48,10 @@ export default function Boxes(props) {
             "V", "W", "X",
             "Y", "Z"
         ];
+
+        // Random variables we need to be random to make new blocks.
+        let randomType = randomBlock(BLOCK_TYPES);
+        let randomFormIndex = randomForm();
 
         const shouldGameEnd = () => {
             let ans = false;
@@ -56,9 +78,6 @@ export default function Boxes(props) {
 
         // If we don't have a block at the moment then...
         if (holding === false) {
-            // Random variables we need to be random.
-            let randomType = randomBlock(BLOCK_TYPES);
-            let randomFormIndex = randomForm();
             // Generate a new block
             updateCurrentBlock(randomType[randomFormIndex]);
             // We now have a block
@@ -89,6 +108,31 @@ export default function Boxes(props) {
                     return false;
                 }
 
+                const mockUp = () => {
+                    let currentConjoined = currentBlock.map(block => {
+                        let next = ALPHABET.indexOf(block.column) + 1;
+                        return `${block.column}${block.row}` && `${ALPHABET[next]}${block.row + rowMovement}`
+                    });
+
+                    let filledConjoined = filledBoxes.map(block => {
+                        return `${block.column}${block.row}`
+                    });
+
+                    let nonozones = [
+                        "A0", "B0", "C0", "D0", "E0", "F0", "G0", "H0", "I0",
+                        "A7", "B7", "C7", "D7", "E7", "F7", "G7", "H7", "I7"
+                    ]
+
+                    let ekis = nonozones.concat(filledConjoined).sort()
+
+                    if (currentConjoined.length === 0) return false
+                    for (let i = 0; i < currentConjoined.length; i++) {
+                        if (ekis.includes(currentConjoined[i])) return true
+                    }    
+                    
+                    return false;
+                }
+
                 if (columns.includes(ALPHABET[GRID_MAX_HEIGHT - FALL_OFFSET]) || collisionResult()) {
                     // Now, we don't have a block
                     setHold(false)
@@ -99,16 +143,18 @@ export default function Boxes(props) {
                 } else {
                     if (collisionResult()) return
                     updateCurrentBlock(currentBlock.map(block => {
-                        let next = ALPHABET.indexOf(block.column) + 1;
+                        let nextColumn = ALPHABET.indexOf(block.column) + 1;
+                        let nextRow = block.row + rowMovement;
+                        if (mockUp()) nextRow = block.row
                         return {
-                            column: ALPHABET[next],
-                            row: block.row
+                            column: ALPHABET[nextColumn],
+                            row: nextRow
                         }
-                    })); 
+                    }));
                 }
             }, 500)
         }
-    }, [filledBoxes, holding, updateCurrentBlock, updateFilledBoxes, currentBlock])
+    }, [filledBoxes, holding, updateCurrentBlock, updateFilledBoxes, currentBlock, rowMovement])
 
     return (
         <>
