@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react';
 import { BLOCK_TYPES } from "../block_types";
 import { useEventListener } from "./event_listener";
 import randomBlock from "../random/random_block";
-import randomForm from "../random/random_form";
+import { blockRotation } from "./grid_resource/rotation";
+
+import { ALPHABET, GRID_HEIGHT, negativeZones } from "./grid_resource/GLOBAL";
 
 export default function Boxes(props) {
     // This is our current block which is empty at first.
@@ -17,7 +19,8 @@ export default function Boxes(props) {
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
 
     let rowMovement = 0;
-    let blockIndex = 0;
+    // mock pause
+    let pause = false;
     const directionHandler = ({ key }) => {
         let input = String(key);
         switch (input) {
@@ -27,31 +30,31 @@ export default function Boxes(props) {
             case "ArrowRight":
                 rowMovement = 1;
             break;
-            // case "ArrowUp":
-            //     blockIndex = 1;
-            // break;
-            default: 
+            case "ArrowUp":
+                blockRotation(currentBlock)
+            break;
+            case "Escape":
+                pause = !pause
+                console.log(pause)
+            break
+            default:
                 return
         }
     };  
 
     useEventListener("keydown", directionHandler);
 
+
     // If we are not holding a block at the moment then we send a newly generated block.
     useEffect(() => {
-        const GRID_MAX_HEIGHT = 9;
+        if (pause) {
+            console.log("stop")
+            return
+        }
+        if (pause === false) {
+            console.log("play")
+        }
         const FALL_OFFSET = 1;
-        const ALPHABET = [
-            "A", "B", "C",
-            "D", "E", "F",
-            "G", "H", "I",
-            "J", "K", "L",
-            "M", "N", "O",
-            "P", "Q", "R",
-            "S", "T", "U",
-            "V", "W", "X",
-            "Y", "Z"
-        ];
 
         // Random variables we need to be random to make new blocks.
         let randomType = randomBlock(BLOCK_TYPES);
@@ -82,7 +85,8 @@ export default function Boxes(props) {
         // If we don't have a block at the moment then...
         if (holding === false) {
             // Generate a new block
-            updateCurrentBlock(randomType[blockIndex]);
+            console.log(randomType)
+            updateCurrentBlock(randomType[0]);
             // We now have a block
             setHold(true);
         } else {
@@ -121,11 +125,6 @@ export default function Boxes(props) {
                         return `${block.column}${block.row}`
                     });
 
-                    let negativeZones = [
-                        "A0", "B0", "C0", "D0", "E0", "F0", "G0", "H0", "I0",
-                        "A7", "B7", "C7", "D7", "E7", "F7", "G7", "H7", "I7"
-                    ]
-
                     let filled = negativeZones.concat(filledConjoined).sort()
 
                     if (currentConjoined.length === 0) return false
@@ -136,8 +135,12 @@ export default function Boxes(props) {
                     return false;
                 }
 
-                if (columns.includes(ALPHABET[GRID_MAX_HEIGHT - FALL_OFFSET]) || collisionResult()) {
+                if (columns.includes(ALPHABET[GRID_HEIGHT - FALL_OFFSET]) || collisionResult()) {
                     // Now, we don't have a block
+                    if (pause) {
+                        console.log("stop")
+                        return
+                    }
                     setHold(false)
                     updateFilledBoxes([
                         ...filledBoxes,
@@ -145,6 +148,10 @@ export default function Boxes(props) {
                     ]);
                 } else {
                     if (collisionResult()) return
+                    if (pause) {
+                        console.log("stop")
+                        return
+                    }
                     updateCurrentBlock(currentBlock.map(block => {
                         let nextColumn = ALPHABET.indexOf(block.column) + 1;
                         let nextRow = block.row + rowMovement;
@@ -155,9 +162,9 @@ export default function Boxes(props) {
                         }
                     }));
                 }
-            }, 500)
+            }, 250)
         }
-    }, [filledBoxes, holding, updateCurrentBlock, updateFilledBoxes, currentBlock, rowMovement])
+    }, [filledBoxes, holding, updateCurrentBlock, updateFilledBoxes, currentBlock, rowMovement, pause])
 
     return (
         <>

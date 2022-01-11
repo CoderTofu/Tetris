@@ -1,3 +1,5 @@
+import { ALPHABET, GRID_HEIGHT } from "./GLOBAL";
+
 function StackedRow(props) {
     // Props
     const ROW = props.row;
@@ -5,21 +7,7 @@ function StackedRow(props) {
     const CURRENT_GRID = props.grid;
 
     // Stack rows to make our grid.
-    const GRID_HEIGHT = 9;
     let stack = [];
-
-    // Alphabet Index
-    const ALPHABET = [
-        "A", "B", "C",
-        "D", "E", "F",
-        "G", "H", "I",
-        "J", "K", "L",
-        "M", "N", "O",
-        "P", "Q", "R",
-        "S", "T", "U",
-        "V", "W", "X",
-        "Y", "Z"
-    ];
 
     for (let i = 0; i < GRID_HEIGHT; i++) {
         stack.push(

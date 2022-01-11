@@ -1,267 +1,134 @@
 export const BLOCK_TYPES = {
     square: [
-        // First form
-        [{
-            column: "A",
-            row: 3
-        },
-        {
-            column: "A",
-            row: 4
-        },
-        {
-            column: "B",
-            row: 3
-        },
-        {
-            column: "B",
-            row: 4
-        }],
-
-        // Second form
-        [{
-            column: "A",
-            row: 3
-        },
-        {
-            column: "A",
-            row: 4
-        },
-        {
-            column: "B",
-            row: 3
-        },
-        {
-            column: "B",
-            row: 4
-        }]
-    ],
-
-    Sblock: [
-        // First form
         [{
             column: "A",
             row: 5
         },
         {
             column: "A",
-            row: 4
+            row: 6
         },
         {
             column: "B",
-            row: 3
+            row: 5
         },
         {
             column: "B",
-            row: 4
+            row: 6
         }],
+    ],
 
-        // Second form
+    Sblock: [
         [{
             column: "A",
-            row: 3
+            row: 6
         },
         {
-            column: "B",
-            row: 3
+            column: "A",
+            row: 5
         },
         {
             column: "B",
             row: 4
         },
         {
-            column: "C",
-            row: 4
+            column: "B",
+            row: 5
         }],
     ],
 
     Zblock: [
-        // First form
         [{
             column: "A",
-            row: 2
+            row: 3
         },
         {
             column: "A",
-            row: 3
-        },
-        {
-            column: "B",
-            row: 3
+            row: 4
         },
         {
             column: "B",
             row: 4
+        },
+        {
+            column: "B",
+            row: 5
         }],
-
-        // Second form
-        [{
-            column: "A",
-            row: 4
-        },
-        {
-            column: "B",
-            row: 4
-        },
-        {
-            column: "B",
-            row: 3
-        },
-        {
-            column: "C",
-            row: 3
-        }]
     ],
 
     Lblock: [
-        // First form
         [{
             column: "B",
-            row: 2
-        },
-        {
-            column: "B",
-            row: 3
-        },
-        {
-            column: "B",
             row: 4
+        },
+        {
+            column: "B",
+            row: 5
+        },
+        {
+            column: "B",
+            row: 6
         },
         {
             column: "A",
-            row: 4
+            row: 6
         }], 
-        
-        // Second form
-        [{
-            column: "A",
-            row: 3
-        },
-        {
-            column: "B",
-            row: 3
-        },
-        {
-            column: "C",
-            row: 3
-        },
-        {
-            column: "C",
-            row: 4
-        }]
     ],
 
     Jblock: [
-        // First form
         [{
             column: "A",
-            row: 3
-        },
-        {
-            column: "A",
-            row: 4
-        },
-        {
-            column: "A",
             row: 5
+        },
+        {
+            column: "A",
+            row: 6
+        },
+        {
+            column: "A",
+            row: 7
         },
         {
             column: "B",
-            row: 5
+            row: 7
         }],
-
-        // Second form
-        [{
-            column: "A",
-            row: 4
-        },
-        {
-            column: "B",
-            row: 4
-        },
-        {
-            column: "C",
-            row: 4
-        },
-        {
-            column: "C",
-            row: 3
-        }]
     ],
 
     Iblock: [
-        // First form
         [{
-            column: "A",
-            row: 2
-        },
-        {
-            column: "A",
-            row: 3
-        },
-        {
             column: "A",
             row: 4
         },
         {
             column: "A",
             row: 5
-        }],
-
-        // Second form
-        [{
+        },
+        {
             column: "A",
-            row: 3
+            row: 6
         },
         {
-            column: "B",
-            row: 3
-        },
-        {
-            column: "C",
-            row: 3
-        },
-        {
-            column: "D",
-            row: 3
-        }]
+            column: "A",
+            row: 7
+        }],
     ],
 
     Tblock: [
-        // First form
         [{
-            column: "A",
-            row: 3
-        },
-        {
-            column: "A",
-            row: 4
-        },
-        {
             column: "A",
             row: 5
         },
         {
-            column: "B",
-            row: 4
-        }],
-
-        // Second form
-        [{
             column: "A",
-            row: 3
+            row: 6
+        },
+        {
+            column: "A",
+            row: 7
         },
         {
             column: "B",
-            row: 3
-        },
-        {
-            column: "C",
-            row: 3
-        },
-        {
-            column: "B",
-            row: 4
-        }]
+            row: 6
+        }],
     ]
 }
