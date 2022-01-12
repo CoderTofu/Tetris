@@ -18,6 +18,8 @@ export const GRID_LENGTH = 10;
 
 export let negativeZones = mock()
 
+export const FALL_OFFSET = 1;
+
 function mock() {
     let negative = []
     for (let i = 0; i < ALPHABET.length; i++) {
@@ -26,4 +28,6 @@ function mock() {
     }
     return negative.sort()
 }
+
+
 
