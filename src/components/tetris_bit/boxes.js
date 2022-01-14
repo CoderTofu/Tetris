@@ -34,7 +34,7 @@ export default function Boxes(props) {
                 rowMovement = 1;
             break;
             case "ArrowUp":
-                blockRotation(currentBlock)
+                blockRotation(updateCurrentBlock, currentBlock)
             break;
             case "Escape":
                 pause = !pause
