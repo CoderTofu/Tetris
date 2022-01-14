@@ -1,5 +1,5 @@
 import Row from "./grid_resource/row";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { BLOCK_TYPES } from "../block_types";
 import { useEventListener } from "./event_listener";
@@ -8,12 +8,15 @@ import randomBlock from "../random/random_block";
 import { ALPHABET, GRID_HEIGHT, FALL_OFFSET, GRID_LENGTH } from "./grid_resource/GLOBAL";
 import StackedRow from "./grid_resource/stacked_row";
 import { blockRotation } from "./grid_resource/rotation";
-import updateBlock from "./grid_resource/update_block";
+import updateFall from "./grid_resource/update_fall";
 import { fallCollision } from './grid_resource/fall_collision';
 
 export default function Boxes(props) {
     // This is our current block which is empty at first.
+    const requestRef = useRef()
+
     let [holding, setHold] = useState(false);
+    // let [rotating, setRotating] = useState(false)
 
     // Passed from App to GameControl and Boxgrid
     // And from BoxGrid to Boxes
@@ -34,11 +37,14 @@ export default function Boxes(props) {
                 rowMovement = 1;
             break;
             case "ArrowUp":
-                blockRotation(updateCurrentBlock, currentBlock)
+                // setRotating(true)
+                // when block rotation tries to update the currentblock
+                // useeffect would trigger and the ongoing timeout at our useeffect would
+                // trigger again causing a bug
             break;
             case "Escape":
                 pause = !pause
-                if (pause === false) updateBlock(updateCurrentBlock, currentBlock, rowMovement, filledBoxes)
+                if (pause === false) updateFall(updateCurrentBlock, currentBlock, rowMovement, filledBoxes)
             break
             default:
                 return
@@ -94,10 +100,7 @@ export default function Boxes(props) {
 
                 if (columns.includes(ALPHABET[GRID_HEIGHT - FALL_OFFSET]) || fallCollision(currentBlock, filledBoxes)) {
                     // Now, we don't have a block
-                    if (pause) {
-                        console.log("stop")
-                        return
-                    }
+                    if (pause) return
                     setHold(false)
                     updateFilledBoxes([
                         ...filledBoxes,
@@ -106,7 +109,7 @@ export default function Boxes(props) {
                 } else {
                     if (fallCollision(currentBlock, filledBoxes)) return
                     if (pause) return
-                    updateBlock(updateCurrentBlock, currentBlock, rowMovement, filledBoxes)
+                    updateFall(updateCurrentBlock, currentBlock, rowMovement, filledBoxes)
                 }
             }, 250)
         }
@@ -118,3 +121,5 @@ export default function Boxes(props) {
         </>
     )
 }
+
+// blockRotation(updateCurrentBlock, currentBlock, filledBoxes);

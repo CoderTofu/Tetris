@@ -1,6 +1,6 @@
-import { ALPHABET, GRID_HEIGHT } from "./GLOBAL";
+import { ALPHABET, GRID_HEIGHT, negativeZones } from "./GLOBAL";
 
-export function blockRotation(updateBlock, blocks) {
+export function blockRotation(updateBlock, blocks, filledBoxes) {
     let coords = blocks.map(block => {
         let columnLetterIndex = ALPHABET.indexOf(block.column);
         let columnNumberIndex = GRID_HEIGHT - columnLetterIndex;
@@ -11,9 +11,6 @@ export function blockRotation(updateBlock, blocks) {
     });
 
     let origin = coords[coords.length - 2];
-
-    console.log(blocks)
-    console.log(coords)
 
     const compute1 = coords.map(block => {
         let computeVarOne = block.column - origin.column;
@@ -35,14 +32,24 @@ export function blockRotation(updateBlock, blocks) {
     })
 
     const rotated = compute2.map(compute => {
-        const numToLetterIndex = compute.column - 20;
+        const numToLetterIndex = 20 - compute.column;
         return {
             column: ALPHABET[numToLetterIndex],
             row: compute.row
         }
     })
 
-    updateBlock(rotated)
+    // Look at all boxes if they're going to collide once they spin
+    const checkBoard = rotated.map(block => {
+        return filledBoxes.includes(block)
+    }).includes(true);
+
+    // Look if rotation will cause the block to go to negative space
+    const checkBoarder = rotated.map(block => {
+        return negativeZones.includes(`${block.column}${block.row}`)
+    }).includes(true);
+
+    if (!checkBoard || !checkBoarder) updateBlock(rotated);
 
     return null
     // block.column is in alphabet
