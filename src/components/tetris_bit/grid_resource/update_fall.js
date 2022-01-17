@@ -11,4 +11,5 @@ export default function updateFall(updateCurrentBlock, currentBlock, rowMovement
             row: nextRow
         }
     }));
+    return null
 }

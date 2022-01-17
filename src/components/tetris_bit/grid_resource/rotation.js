@@ -1,6 +1,7 @@
 import { ALPHABET, GRID_HEIGHT, negativeZones } from "./GLOBAL";
+import moveCollision from "./movement_collision";
 
-export function blockRotation(updateBlock, blocks, filledBoxes) {
+export function blockRotation(updateBlock, blocks, filledBoxes, rowMovement) {
     let coords = blocks.map(block => {
         let columnLetterIndex = ALPHABET.indexOf(block.column);
         let columnNumberIndex = GRID_HEIGHT - columnLetterIndex;
@@ -49,13 +50,7 @@ export function blockRotation(updateBlock, blocks, filledBoxes) {
         return negativeZones.includes(`${block.column}${block.row}`)
     }).includes(true);
 
-    if (!checkBoard || !checkBoarder) updateBlock(rotated);
+    if (!checkBoard || !checkBoarder || moveCollision(rotated, rowMovement, filledBoxes)) updateBlock(rotated);
 
     return null
-    // block.column is in alphabet
-    // with the top being "A" and the bottom being ALPHABET[GRID_HEIGHT - OFFSET]
-    // now I have to not only change block column to numerical form
-    // I also have to start with "1" being the very bottom and the top being GRID_HEIGHT - 1
-    // my grid should then be 1 - 10 from left to right
-    // and 1 - 20 from bottom to top
 }
