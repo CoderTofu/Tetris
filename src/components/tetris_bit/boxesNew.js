@@ -12,6 +12,7 @@ import StackedRow from "./grid_resource/stacked_row";
 import { blockRotation } from "./grid_resource/rotation";
 import updateFall from "./grid_resource/update_fall";
 import { fallCollision } from './grid_resource/fall_collision';
+import { checkClearRow } from "./grid_resource/clear_row";
 
 export default function Boxes(props) {
     const holding = useRef(false);
@@ -96,10 +97,14 @@ export default function Boxes(props) {
             if (columns.includes(ALPHABET[GRID_HEIGHT - FALL_OFFSET]) || fallCollision(refCurrentBlock.current, refFilledBoxes.current)) {
                 // Now, we don't have a block
                 holding.current = false;
-                updateFilledBoxes([
+                refFilledBoxes.current = [
                     ...refFilledBoxes.current,
                     ...refCurrentBlock.current
+                ]
+                updateFilledBoxes([
+                    ...refFilledBoxes.current,
                 ]);
+                checkClearRow(updateFilledBoxes, refFilledBoxes.current, refCurrentBlock.current)
             } else {
                 updateFall(updateCurrentBlock, refCurrentBlock.current, refRowMovement.current, filledBoxes)
                 refRowMovement.current = 0;
