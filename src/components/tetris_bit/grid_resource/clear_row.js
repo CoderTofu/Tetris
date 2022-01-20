@@ -1,6 +1,6 @@
 import { GRID_LENGTH } from './GLOBAL';
 
-export function checkClearRow(updateFunc, boxes, landed) {
+export function checkClearRow(updateFunc, filledBoxes, landed) {
     let columnsOfLanded = landed.map(block => {
         return block.column
     })
@@ -22,19 +22,19 @@ export function checkClearRow(updateFunc, boxes, landed) {
         return line
     })
 
-    // function check(item) {
-    //     return item === true
-    // }
-
-    let clearable = linesToCheck.map((line) => {
-        let result = line.map((block) => {
-            console.log(boxes, block)
-            return boxes.includes(block)
+    let clearable = linesToCheck.map((lines) => {
+        return lines.map((cords) => {
+            let result = filledBoxes.find(({column, row}) => {
+                return column === cords.column && row === cords.row
+            })
+            if (result) return true
+            else return false
+        }).every((val) => {
+            return val === true
         })
-        return result
     })
 
-    console.log(clearable);
+    console.log(clearable.find(true))
 
     /**
      * First hanapin kung anong mga column ang nalandingan nung 
@@ -45,6 +45,6 @@ export function checkClearRow(updateFunc, boxes, landed) {
 }
 
 
-function clearRow() {
+// function clearRow() {
 
-}
+// }
