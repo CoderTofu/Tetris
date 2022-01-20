@@ -22,8 +22,10 @@ export function checkClearRow(updateFunc, filledBoxes, landed) {
         return line
     })
 
-    let clearable = linesToCheck.map((lines) => {
-        return lines.map((cords) => {
+
+    let linesThatPassed = []
+    linesToCheck.map((lines) => {
+        let line = lines.map((cords) => {
             let result = filledBoxes.find(({column, row}) => {
                 return column === cords.column && row === cords.row
             })
@@ -32,16 +34,23 @@ export function checkClearRow(updateFunc, filledBoxes, landed) {
         }).every((val) => {
             return val === true
         })
+        if (line) linesThatPassed.push(...lines)
+        return line
     })
 
-    console.log(clearable.find(true))
-
-    /**
-     * First hanapin kung anong mga column ang nalandingan nung 
-     * kababagsak lang na block. Then we check all columns with
-     * a loop that sees if completed ng column na yun yung lahat 
-     * ng rows
-     */
+    if (linesThatPassed.length > 0) {
+        let test = linesThatPassed.map((cords) => {
+            let result = filledBoxes.find(({ column, row }, index) => {
+                if (column === cords.column && row === cords.row){
+                    return index
+                }
+                return null
+            })
+            return result
+        })
+        console.log(test)
+        // remove
+    }
 }
 
 
