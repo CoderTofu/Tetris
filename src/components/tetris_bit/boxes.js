@@ -48,7 +48,7 @@ export default function Boxes(props) {
     
     const dropCounter = useRef(0); 
     const previousTimeRef = useRef(0);
-    const dropInterval = 250;
+    const dropInterval = 150;
 
     const update = (time = 0) => {
         const deltaTime = time - previousTimeRef.current;
