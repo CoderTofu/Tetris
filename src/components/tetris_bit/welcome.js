@@ -1,7 +1,9 @@
 export default function WelcomeToTetris() {
     return (
         <div>
-            I welcome you to my react tetris
+            <h1>Welcome to a simple Tetris game.</h1>
+            <h3>Made by CoderTofu</h3>
+            <h4>@2022</h4>
         </div>
     )
 }

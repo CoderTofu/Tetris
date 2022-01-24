@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
 import { ALPHABET, GRID_LENGTH } from './GLOBAL';
+import { scoreCheck } from '../../main/score';
 
 export function checkClearRow(updateFunc, filledBoxes, landed) {
     let columnsOfLanded = landed.map(block => {
@@ -50,15 +50,7 @@ export function checkClearRow(updateFunc, filledBoxes, landed) {
             return ALPHABET[ALPHABET.indexOf(column)]
         })
 
-        // function indexFilter(item) {
-        //     return i
-        // }
-
-        /**
-         * Gawa ka function na iseseperate yung mga na apektuhan nung filter
-         * Basically lahat ng may columns na less than yung index nila sa column na na filter
-         * If index of "T" is 19 then lahat ng mababa sakanya ay madadagdagan yung index sa column
-         */
+        scoreCheck(affected.length)
 
         let adjust = filtered.map((block) => {
             let columnIndex = ALPHABET.indexOf(block.column);
@@ -74,18 +66,6 @@ export function checkClearRow(updateFunc, filledBoxes, landed) {
             }
         })
 
-        // let adjust = affectedIndex.map(columnIndex => {
-        // })
-
-        console.log(affected)
-
         updateFunc(adjust)
-
-        // remove
     }
 }
-
-
-// function clearRow(updateFunc, filledBoxes, index) {
-//     console.log(index)
-// }

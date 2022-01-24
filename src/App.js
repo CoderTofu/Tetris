@@ -1,5 +1,6 @@
 import BoxGrid from "./components/main/box_grid";
 import GameControl from "./components/main/game_control"
+import GameScore from "./components/main/score";
 import { useState } from 'react';
 
 function App() {
@@ -24,11 +25,16 @@ function App() {
       />
 
       {/* Tetris Control Div */}
-      <GameControl 
-      changeFunc={changeGameState} 
-      filledState={updateFilledBoxes}
-      currentBlockState={updateCurrentBlock}
-      />
+      {gameState === "pending" ? 
+      <GameControl
+        changeFunc={changeGameState}
+        filledState={updateFilledBoxes}
+        currentBlockState={updateCurrentBlock}
+      /> 
+      : gameState === "during" ? 
+      <GameScore 
+      currentBlockState={currentBlock}/>
+      : ""}
 
     </div>
   );

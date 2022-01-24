@@ -1,7 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import Row from "./grid_resource/row";
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { BLOCK_TYPES } from "../block_types";
 import { useEventListener } from "./event_listener";
@@ -48,7 +46,7 @@ export default function Boxes(props) {
     
     const dropCounter = useRef(0); 
     const previousTimeRef = useRef(0);
-    const dropInterval = 150;
+    const dropInterval = 250;
 
     const update = (time = 0) => {
         const deltaTime = time - previousTimeRef.current;
@@ -120,12 +118,12 @@ export default function Boxes(props) {
     useEffect(() => {
         requestRef.current = requestAnimationFrame(update);
         return () => cancelAnimationFrame(requestRef.current);
-    }, [])
+    })
 
     useEffect(() => {
         refCurrentBlock.current = currentBlock
         refFilledBoxes.current = filledBoxes
-    }, [refCurrentBlock.current, refFilledBoxes.current])
+    }, [currentBlock, filledBoxes])
 
     useEventListener("keydown", directionHandler);
 
