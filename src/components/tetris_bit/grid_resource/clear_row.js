@@ -1,5 +1,4 @@
 import { ALPHABET, GRID_LENGTH } from './GLOBAL';
-import { scoreCheck } from '../../main/score';
 
 export function checkClearRow(updateFunc, filledBoxes, landed) {
     let columnsOfLanded = landed.map(block => {
@@ -47,15 +46,13 @@ export function checkClearRow(updateFunc, filledBoxes, landed) {
 
         let affected = linesThatPassed.map((block) => block.column).filter(onlyUnique);
         let affectedIndex = affected.map(column => {
-            return ALPHABET[ALPHABET.indexOf(column)]
+            return ALPHABET.indexOf(column)
         })
-
-        scoreCheck(affected.length)
 
         let adjust = filtered.map((block) => {
             let columnIndex = ALPHABET.indexOf(block.column);
             let result = affectedIndex.filter((a) => {
-                return columnIndex < a
+                return columnIndex === a
             })
             // If not less than the index of affected then block should not fall
             if (!result) return block

@@ -1,6 +1,7 @@
 import "../../styles/box_grid_style.css"
 import Boxes from "../tetris_bit/boxes"
 import WelcomeToTetris from "../tetris_bit/welcome";
+import GameScore from "./score";
 
 export default function BoxGrid(props) {
     let condition = props.gameCondition;
@@ -19,12 +20,17 @@ export default function BoxGrid(props) {
         }
     if (condition === "during") {
         return (
+            <>
             <div className="grid-container">
                 {<Boxes 
                     filledState={[filledBoxes, updateFilledBoxes]}
                     currentBlockState={[currentBlock, updateCurrentBlock]}
                 />}
             </div>
+            <GameScore 
+                filledState={filledBoxes}   
+            />
+            </>
         )
     }
 }

@@ -1,28 +1,23 @@
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 
 export default function GameScore(props) {
-    let prevGrid = useRef(props.currentBlock).current;
-
-    /**
-     * Create a variable that will be for the previous state of the grid.
-     * Then create another variable for the current state of the grid.
-     * Check if the length of the previous to the current decreased or increased.
-     * If it decreased a score must be added. 
-     * */ 
+    let currentGrid = props.filledState;
+    let prevGrid = useRef([]);
+    let [score, setScore] = useState(0)
 
     useEffect(() => {
-        console.log(prevGrid)
-    }, [prevGrid])
-
-    // scoreCheck(score, setScore)
+        // If our current grid is less than prev grid, this would mean
+        // that we have just cleared boxes.
+        if (currentGrid.length < prevGrid.current.length) {
+            const gridDiff = prevGrid.current.length - currentGrid.length;
+            setScore(score + gridDiff)
+        }
+        prevGrid.current = currentGrid
+    }, [score, currentGrid])
 
     return (
         <div>
-            Score: 0
+            Score: {score}
         </div>
     )
-}
-
-export function scoreCheck() {
-
 }
