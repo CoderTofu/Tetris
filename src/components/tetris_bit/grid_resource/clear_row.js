@@ -38,6 +38,7 @@ export function checkClearRow(updateFunc, filledBoxes, landed) {
     })
 
     if (linesThatPassed.length > 0) {
+        // The grid removing the rows that are to be cleared.
         let filtered = filledBoxes.filter((a) => {
             return !linesThatPassed.map((b) => {
                 return `${b.column}${b.row}`
@@ -51,12 +52,16 @@ export function checkClearRow(updateFunc, filledBoxes, landed) {
 
         let adjust = filtered.map((block) => {
             let columnIndex = ALPHABET.indexOf(block.column);
+            let relation = affectedIndex.map((affected) => {
+                return affected > columnIndex
+            })
             let result = affectedIndex.filter((a) => {
-                return columnIndex === a
+                return columnIndex < a
             })
             // If not less than the index of affected then block should not fall
             if (!result) return block
-            let adjustColumn = ALPHABET[ALPHABET.indexOf(block.column) + affected.length];
+            let indexAdjustment = relation.lastIndexOf(true) + 1;
+            let adjustColumn = ALPHABET[ALPHABET.indexOf(block.column) + indexAdjustment];
             return {
                 column: adjustColumn,
                 row: block.row
