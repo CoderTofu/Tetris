@@ -14,7 +14,9 @@ import { checkClearRow } from "./grid_resource/clear_row";
 
 export default function Boxes(props) {
     const holding = useRef(false);
-    const requestRef = useRef()
+    const requestRef = useRef();
+    const randomType = useRef();
+    const shiftHold = useRef([]);
 
     const refFilledBoxes = useRef();
     const refCurrentBlock = useRef();
@@ -39,6 +41,20 @@ export default function Boxes(props) {
             case "Escape":
                 pause.current = !pause.current
                 break
+            case "Shift":
+                let placeHolder = randomType.current;
+                console.log(randomType.current)
+                console.log("SHIFT")
+                console.log(shiftHold.current)
+                // console.log(shiftHold.current.length)
+                if (shiftHold.current.length === 0) {
+                    generateBlock();
+                    shiftHold.current = placeHolder
+                } else {
+                    generateBlock(shiftHold.current);
+                    shiftHold.current = placeHolder;
+                }
+                break
             default:
                 return
         }
@@ -48,19 +64,20 @@ export default function Boxes(props) {
     const previousTimeRef = useRef(0);
     const dropInterval = 250;
 
+    const generateBlock = (type = "") => {
+        // Random variable we need to be random to make new blocks.
+        // Block hold principle
+        randomType.current = type === "" ? (randomBlock(BLOCK_TYPES)) : (type);
+        // Generate a new block
+        refCurrentBlock.current = randomType.current[0];
+        // We now have a block
+        holding.current = true;
+    }
+
     const update = (time = 0) => {
         const deltaTime = time - previousTimeRef.current;
         previousTimeRef.current = time;
         dropCounter.current+= deltaTime;
-
-        const generateBlock = () => {
-            // Random variable we need to be random to make new blocks.
-            let randomType = randomBlock(BLOCK_TYPES);
-            // Generate a new block
-            refCurrentBlock.current = randomType[0];
-            // We now have a block
-            holding.current = true;
-        }
 
         const shouldGameEnd = () => {
             let ans = false;
