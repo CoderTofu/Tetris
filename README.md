@@ -10,4 +10,5 @@ A small game project made to showcase my React skills.
     Make gui more attractive
 
 ### HOLD
-    Shift to block hold
+    Display the type we are holding.
+

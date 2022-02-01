@@ -42,13 +42,14 @@ export default function Boxes(props) {
                 refRowMovement.current = 1;
                 break;
             case "ArrowUp":
+                if (pause.current) return
                 blockRotation(updateCurrentBlock, currentBlock, filledBoxes, refRowMovement.current);
                 break;
             case "Escape":
                 pause.current = !pause.current
                 break
             case "Shift":
-                if (held.current) return
+                if (held.current || pause.current) return
                 let block_place_holder = randomType.current;
                 // If the user is yet to shift hold
                 // We just generate a new block and take the current block type.
