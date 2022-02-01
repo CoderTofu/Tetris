@@ -13,12 +13,20 @@ import { fallCollision } from './grid_resource/fall_collision';
 import { checkClearRow } from "./grid_resource/clear_row";
 
 export default function Boxes(props) {
+    // Block Holding
     const holding = useRef(false);
-    const requestRef = useRef()
+    // Tetris Animation
+    const requestRef = useRef();
+
+    // Shift Hold Variables
+    const randomType = useRef();
+    const shiftHold = useRef([]);
+    // Variable to help figure out if the user has already use shift hold
+    const held = useRef(false);
 
     const refFilledBoxes = useRef();
     const refCurrentBlock = useRef();
-    const refRowMovement = useRef(0)
+    const refRowMovement = useRef(0);
     let [filledBoxes, updateFilledBoxes] = props.filledState;
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
 
@@ -39,6 +47,25 @@ export default function Boxes(props) {
             case "Escape":
                 pause.current = !pause.current
                 break
+            case "Shift":
+                if (held.current) return
+                let block_place_holder = randomType.current;
+                // If the user is yet to shift hold
+                // We just generate a new block and take the current block type.
+                if (shiftHold.current.length === 0) {
+                    generateBlock();
+                    shiftHold.current = block_place_holder;
+                    held.current = true;
+                } 
+                // Once the player started to use shift hold
+                // We generate a new block while passing the block that they shift holded
+                // So that it can be generated again
+                else {
+                    generateBlock(shiftHold.current);
+                    shiftHold.current = block_place_holder;
+                    held.current = true;
+                }
+                break
             default:
                 return
         }
@@ -48,19 +75,19 @@ export default function Boxes(props) {
     const previousTimeRef = useRef(0);
     const dropInterval = 250;
 
+    const generateBlock = (type = "") => {
+        // Random variable we need to be random to make new blocks.
+        randomType.current = type === "" ? (randomBlock(BLOCK_TYPES)) : (type);
+        // Generate a new block
+        refCurrentBlock.current = randomType.current[0];
+        // We now have a block
+        holding.current = true;
+    }
+
     const update = (time = 0) => {
         const deltaTime = time - previousTimeRef.current;
         previousTimeRef.current = time;
         dropCounter.current+= deltaTime;
-
-        const generateBlock = () => {
-            // Random variable we need to be random to make new blocks.
-            let randomType = randomBlock(BLOCK_TYPES);
-            // Generate a new block
-            refCurrentBlock.current = randomType[0];
-            // We now have a block
-            holding.current = true;
-        }
 
         const shouldGameEnd = () => {
             let ans = false;
@@ -85,7 +112,10 @@ export default function Boxes(props) {
         }
 
         if (dropCounter.current > dropInterval && !pause.current) {
-            if (shouldGameEnd()) return        
+            if (shouldGameEnd()) {
+                console.log("--Game ends here!---")
+                return
+            }   
             if (holding.current === false) generateBlock();
 
             let columns = refCurrentBlock.current.map(block => {
@@ -102,6 +132,7 @@ export default function Boxes(props) {
                 updateFilledBoxes([
                     ...refFilledBoxes.current,
                 ]);
+                held.current = false;
                 checkClearRow(updateFilledBoxes, refFilledBoxes.current, refCurrentBlock.current)
             } else {
                 updateFall(updateCurrentBlock, refCurrentBlock.current, refRowMovement.current, filledBoxes)
