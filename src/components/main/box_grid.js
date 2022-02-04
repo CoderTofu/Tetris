@@ -31,7 +31,7 @@ export default function BoxGrid(props) {
                 </div>
                 
                 <div className="game-information">
-                    <GameScore className="tayo"
+                    <GameScore
                         filledState={filledBoxes}
                     />
 

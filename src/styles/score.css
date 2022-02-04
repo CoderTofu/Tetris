@@ -1,5 +1,19 @@
 .game-score {
-    border: white 5px;
-    background-color: yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    width: 100%;
+    border: 1px solid #D4F4DD;
+    border-radius: 10px;
+    background-color: #197BBD;
     text-align: center;
+    margin-bottom: 50px;
+}
+
+.game-score h3 {
+    color: #ffffff;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
 }

@@ -18,7 +18,7 @@ export default function GameScore(props) {
 
     return (
         <div className="game-score">
-            Score: {score}
+            <h3>Score: {score}</h3>
         </div>
     )
 }
