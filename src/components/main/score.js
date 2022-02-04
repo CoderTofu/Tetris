@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react"
+import "../../styles/score.css"
 
 export default function GameScore(props) {
     let currentGrid = props.filledState;
@@ -16,8 +17,8 @@ export default function GameScore(props) {
     }, [score, currentGrid])
 
     return (
-        <div>
-            Score: {score}
+        <div className="game-score">
+            <h3>Score: {score}</h3>
         </div>
     )
 }

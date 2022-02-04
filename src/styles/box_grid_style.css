@@ -1,25 +1,63 @@
-.grid-container {
-    width: fit-content;
-    height: fit-content;
-    border-right: 1px solid #000;
-    border-bottom: 1px solid #000;
+:root {
+    --grid-border-color: #D4F4DD;
+    --current-block-color: rgb(148, 148, 148);
+    --filled-block-color: rgb(165, 14, 17);
 }
 
-.box-column {
+.play-screen {
+    width: 60vw;
     display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
+/* About the game or the tetris itself */
+    .game-border {
+        border: 5px solid var(--grid-border-color);
+        border-radius: 10px;
+    }
 
-.box {
-    height: 25px;
-    width: 25px;
-    border-top: 1px solid #000;
-    border-left: 1px solid #000;
-}
+    .grid-container {
+        width: fit-content;
+        height: fit-content;
+        border-right: 1px solid var(--grid-border-color);
+        border-bottom: 1px solid var(--grid-border-color);
+    }
 
-.box.current {
-    background-color: gray;
-}
+    .box-column {
+        display: flex;
+    }
 
-.box.filled {
-    background-color: red;
-}
+    .box {
+        height: 25px;
+        width: 25px;
+        border-top: 1px solid var(--grid-border-color);
+        border-left: 1px solid var(--grid-border-color);
+    }
+
+    .box.current {
+        background-color: var(--current-block-color);
+    }
+
+    .box.filled {
+        background-color: var(--filled-block-color);
+    }
+
+/* About game information */
+    .game-information {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+        width: 250px;
+    }
+
+    /* Score div is in score.css */
+
+    .game-controls {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #D4F4DD;
+        border-radius: 10px;
+        background-color: #EB9486;
+    }
