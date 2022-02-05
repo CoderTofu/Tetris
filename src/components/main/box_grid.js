@@ -2,6 +2,7 @@ import "../../styles/box_grid_style.css"
 import Boxes from "../tetris_bit/boxes"
 import WelcomeToTetris from "../tetris_bit/welcome";
 import GameScore from "./score";
+import { useState } from 'react';
 
 export default function BoxGrid(props) {
     let condition = props.gameCondition;
@@ -10,6 +11,8 @@ export default function BoxGrid(props) {
     // And from BoxGrid to Boxes
     let [filledBoxes, updateFilledBoxes] = props.filledState;
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
+    
+    let [pause, pauseUpdate] = useState(false);
 
     if (condition === "pending") {
             return (
@@ -21,11 +24,17 @@ export default function BoxGrid(props) {
     if (condition === "during") {
         return (
             <div className="play-screen">
+
+                <div className={`pause-screen ${pause ? "active" : ""}`}>
+                    Pause
+                </div>
+
                 <div className="game-border">
                     <div className="grid-container">
                         {<Boxes
                             filledState={[filledBoxes, updateFilledBoxes]}
                             currentBlockState={[currentBlock, updateCurrentBlock]}
+                            pauseUpdate={pauseUpdate}
                         />}
                     </div>
                 </div>

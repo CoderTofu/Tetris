@@ -32,6 +32,8 @@ export default function Boxes(props) {
 
     // Pause Handler
     const pause = useRef(false)
+    // Pause Screen Updater
+    let pauseScreenUpdater = props.pauseUpdate; 
     const directionHandler = ({ key }) => {
         let input = String(key);
         switch (input) {
@@ -47,6 +49,7 @@ export default function Boxes(props) {
                 break;
             case "Escape":
                 pause.current = !pause.current
+                pauseScreenUpdater(pause.current)
                 break
             case "Shift":
                 if (held.current || pause.current) return

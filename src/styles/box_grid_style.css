@@ -1,15 +1,26 @@
-:root {
-    --grid-border-color: #D4F4DD;
-    --current-block-color: rgb(148, 148, 148);
-    --filled-block-color: rgb(165, 14, 17);
-}
-
 .play-screen {
-    width: 60vw;
+    width: 100vw;
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
+
+.pause-screen {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+}
+
+.pause-screen.active {
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* About the game or the tetris itself */
     .game-border {
         border: 5px solid var(--grid-border-color);
@@ -57,7 +68,7 @@
     .game-controls {
         width: 100%;
         padding: 15px;
-        border: 1px solid #D4F4DD;
+        border: 1px solid var(--grid-border-color);
         border-radius: 10px;
-        background-color: #EB9486;
+        background-color: var(--game-info-bg-color);
     }
