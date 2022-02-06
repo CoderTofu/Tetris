@@ -13,6 +13,7 @@ export default function BoxGrid(props) {
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
     
     let [pause, pauseUpdate] = useState(false);
+    let [blockType, changeBlockType] = useState("none")
 
     if (condition === "pending") {
             return (
@@ -29,13 +30,20 @@ export default function BoxGrid(props) {
                     Pause
                 </div>
 
-                <div className="game-border">
-                    <div className="grid-container">
-                        {<Boxes
-                            filledState={[filledBoxes, updateFilledBoxes]}
-                            currentBlockState={[currentBlock, updateCurrentBlock]}
-                            pauseUpdate={pauseUpdate}
-                        />}
+                <div className="game-container">
+                    <div className="">
+                        <img src={`/blocks/${blockType}.png`} className="block-type" alt="" />
+                    </div>
+
+                    <div className="game-border">
+                        <div className="grid-container">
+                            {<Boxes
+                                filledState={[filledBoxes, updateFilledBoxes]}
+                                currentBlockState={[currentBlock, updateCurrentBlock]}
+                                pauseUpdate={pauseUpdate}
+                                changeBlockType={changeBlockType}
+                            />}
+                        </div>
                     </div>
                 </div>
                 
