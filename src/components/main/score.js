@@ -4,7 +4,8 @@ import "../../styles/score.css"
 export default function GameScore(props) {
     let currentGrid = props.filledState;
     let prevGrid = useRef([]);
-    let [score, setScore] = useState(0)
+    let score = props.score;
+    let setScore = props.setScore
 
     useEffect(() => {
         // If our current grid is less than prev grid, this would mean
@@ -14,7 +15,7 @@ export default function GameScore(props) {
             setScore(score + gridDiff)
         }
         prevGrid.current = currentGrid
-    }, [score, currentGrid])
+    }, [score, currentGrid, setScore])
 
     return (
         <div className="game-score">

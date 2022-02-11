@@ -17,7 +17,6 @@ export default function GameControl(props) {
     return (
         <div>
             <button onClick={startFunction}>Start</button>
-            {/* <button onClick={resetFunction}>DevReset</button> */}
         </div>
     )
 }

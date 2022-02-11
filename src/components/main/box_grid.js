@@ -14,6 +14,7 @@ export default function BoxGrid(props) {
     
     let [pause, pauseUpdate] = useState(false);
     let [blockType, changeBlockType] = useState("none")
+    let [score, setScore] = useState(0)
 
     if (condition === "pending") {
             return (
@@ -27,7 +28,7 @@ export default function BoxGrid(props) {
             <div className="play-screen">
 
                 <div className={`pause-screen ${pause ? "active" : ""}`}>
-                    Pause
+                    <h3>Paused</h3>
                 </div>
 
                 <div className="game-container">
@@ -38,6 +39,7 @@ export default function BoxGrid(props) {
                     <div className="game-border">
                         <div className="grid-container">
                             {<Boxes
+                                changeGameState={props.changeGameState}
                                 filledState={[filledBoxes, updateFilledBoxes]}
                                 currentBlockState={[currentBlock, updateCurrentBlock]}
                                 pauseUpdate={pauseUpdate}
@@ -49,6 +51,8 @@ export default function BoxGrid(props) {
                 
                 <div className="game-information">
                     <GameScore
+                        score={score}
+                        setScore={setScore}
                         filledState={filledBoxes}
                     />
 
@@ -63,6 +67,21 @@ export default function BoxGrid(props) {
                         </ul>
                     </div>
                 </div>
+            </div>
+        )
+    } else if (condition === "after") {
+        return (
+            <div>
+                END GAME
+                <div>
+                    You scored {score}
+                </div>
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                There was an error!
             </div>
         )
     }

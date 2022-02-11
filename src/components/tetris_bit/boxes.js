@@ -30,6 +30,9 @@ export default function Boxes(props) {
     let [filledBoxes, updateFilledBoxes] = props.filledState;
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
 
+    // Variable that will decide wheter we should go to the end phase of the game
+    const changeGameState = props.changeGameState
+
     // Pause Handler
     const pause = useRef(false)
     // Pause Screen Updater
@@ -129,6 +132,7 @@ export default function Boxes(props) {
 
         if (dropCounter.current > dropInterval && !pause.current) {
             if (shouldGameEnd()) {
+                changeGameState("after")
                 console.log("--Game ends here!---")
                 return
             }   
