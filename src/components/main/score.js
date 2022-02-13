@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect } from "react"
 import "../../styles/score.css"
 
 export default function GameScore(props) {
