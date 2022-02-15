@@ -1,3 +1,4 @@
+import "../../styles/play_event.css"
 import Boxes from "./boxes";
 import GameScore from "../main/score";
 import { useState } from 'react';
@@ -51,6 +52,7 @@ export default function PlayEvent(props) {
                         <li>Right Arrow Key - Moves the block to the right.</li>
                         <li>Up Arrow Key - Rotates the block clockwise.</li>
                         <li>Shift - Hold a block.</li>
+                        <li>Control - Quit play session.</li>
                     </ul>
                 </div>
             </div>

@@ -1,4 +1,3 @@
-import "../../styles/box_grid_style.css"
 import PlayEvent from "../tetris_bit/play_event";
 import EndEvent from "../tetris_bit/end_event";
 import WelcomeToTetris from "../tetris_bit/welcome";
@@ -34,6 +33,8 @@ export default function BoxGrid(props) {
     } else if (condition === "after") {
         return (
             <EndEvent 
+                changeGameState={changeGameState}
+                clearGame={[updateCurrentBlock, updateFilledBoxes, setScore]} // So we can clear the previous game
                 score={score}
             />
         )

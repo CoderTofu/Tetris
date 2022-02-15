@@ -78,7 +78,12 @@ export default function Boxes(props) {
                     held.current = true;
                 }
                 break
+            // Temporary control to quit
+            case "Control":
+                gameEnd()
+                break
             default:
+                console.log(input)
                 return
         }
     };
@@ -101,6 +106,14 @@ export default function Boxes(props) {
         refCurrentBlock.current = randomType.current[0];
         // We now have a block
         holding.current = true;
+    }
+
+    const gameEnd = () => {
+        updateFilledBoxes([])
+        updateCurrentBlock([])
+        generateBlock()
+        changeGameState("after")
+        console.log("--Game ends here!---")
     }
 
     const update = (time = 0) => {
@@ -132,8 +145,7 @@ export default function Boxes(props) {
 
         if (dropCounter.current > dropInterval && !pause.current) {
             if (shouldGameEnd()) {
-                changeGameState("after")
-                console.log("--Game ends here!---")
+                gameEnd()
                 return
             }   
             if (holding.current === false) generateBlock();
