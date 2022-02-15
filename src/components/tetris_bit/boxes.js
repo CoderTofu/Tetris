@@ -83,7 +83,6 @@ export default function Boxes(props) {
                 gameEnd()
                 break
             default:
-                console.log(input)
                 return
         }
     };
@@ -109,10 +108,7 @@ export default function Boxes(props) {
     }
 
     const gameEnd = () => {
-        updateFilledBoxes([])
-        updateCurrentBlock([])
         changeGameState("after")
-        generateBlock()
         console.log("--Game ends here!---")
     }
 
