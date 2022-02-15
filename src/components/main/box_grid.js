@@ -14,36 +14,34 @@ export default function BoxGrid(props) {
     
     let [score, setScore] = useState(0)
 
+    let Display = undefined
+
     if (condition === "pending") {
-            return (
-                <div>
-                   <WelcomeToTetris />
-                </div>
-            )
-        }
-    if (condition === "during") {
-        return (
-            <PlayEvent 
+         Display = <WelcomeToTetris />
+    } else if (condition === "during") {
+        Display = <PlayEvent 
                 changeGameState={changeGameState}
                 currentBlockState={[currentBlock, updateCurrentBlock]}
                 filledState={[filledBoxes, updateFilledBoxes]}
                 scoreVars={[score, setScore]}
-            />
-        )
+                />
     } else if (condition === "after") {
-        return (
-            <EndEvent 
+        Display = <EndEvent 
                 changeGameState={changeGameState}
-                clearGame={[updateCurrentBlock, updateFilledBoxes, setScore]} // So we can clear the previous game
                 score={score}
-            />
-        )
+                />
     } else {
         return (
             <div>
-                There was an error!
+                There was an error :(
             </div>
         )
     }
+
+    return (
+        <>
+            {Display}
+        </>
+    )
 }
 

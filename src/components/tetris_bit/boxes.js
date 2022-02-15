@@ -111,8 +111,8 @@ export default function Boxes(props) {
     const gameEnd = () => {
         updateFilledBoxes([])
         updateCurrentBlock([])
-        generateBlock()
         changeGameState("after")
+        generateBlock()
         console.log("--Game ends here!---")
     }
 

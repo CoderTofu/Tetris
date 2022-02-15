@@ -1,17 +1,8 @@
 export default function EndEvent(props) {
-    let score = props.score
-    let changeGameState = props.changeGameState
-    let [clearCurrent, clearFilled, clearScore] = props.clearGame
+    let score = props.score;
 
     const toStart = () => {
-        changeGameState("during")
-    }
-
-    const toPlay = () => {
-        changeGameState("pending")
-        clearCurrent([])
-        clearFilled([])
-        clearScore(0)
+        window.location.reload(false);
     }
 
     return (
@@ -21,8 +12,7 @@ export default function EndEvent(props) {
                 You scored {score}
             </div>
             <div>
-                <button onClick={toStart}>Play again!</button>
-                <button onClick={toPlay}>Go to start menu.</button>
+                <button onClick={toStart}>Restart</button>
             </div>
         </div>
     )
