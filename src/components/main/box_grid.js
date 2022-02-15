@@ -1,53 +1,47 @@
-import "../../styles/box_grid_style.css"
-import Boxes from "../tetris_bit/boxes"
+import PlayEvent from "../tetris_bit/play_event";
+import EndEvent from "../tetris_bit/end_event";
 import WelcomeToTetris from "../tetris_bit/welcome";
-import GameScore from "./score";
+import { useState } from 'react';
 
 export default function BoxGrid(props) {
     let condition = props.gameCondition;
+    let changeGameState = props.changeGameState
 
     // Passed from App to GameControl and Boxgrid(this)
     // And from BoxGrid to Boxes
     let [filledBoxes, updateFilledBoxes] = props.filledState;
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
+    
+    let [score, setScore] = useState(0)
+
+    let Display = undefined
 
     if (condition === "pending") {
-            return (
-                <div>
-                   <WelcomeToTetris />
-                </div>
-            )
-        }
-    if (condition === "during") {
+         Display = <WelcomeToTetris />
+    } else if (condition === "during") {
+        Display = <PlayEvent 
+                changeGameState={changeGameState}
+                currentBlockState={[currentBlock, updateCurrentBlock]}
+                filledState={[filledBoxes, updateFilledBoxes]}
+                scoreVars={[score, setScore]}
+                />
+    } else if (condition === "after") {
+        Display = <EndEvent 
+                changeGameState={changeGameState}
+                score={score}
+                />
+    } else {
         return (
-            <div className="play-screen">
-                <div className="game-border">
-                    <div className="grid-container">
-                        {<Boxes
-                            filledState={[filledBoxes, updateFilledBoxes]}
-                            currentBlockState={[currentBlock, updateCurrentBlock]}
-                        />}
-                    </div>
-                </div>
-                
-                <div className="game-information">
-                    <GameScore
-                        filledState={filledBoxes}
-                    />
-
-                    <div className="game-controls">
-                        <h2>Game Controls!</h2>
-                        <ul>
-                            <li>Escape - Pauses and unpauses the game.</li>
-                            <li>Left Arrow Key - Moves the block to the left.</li>
-                            <li>Right Arrow Key - Moves the block to the right.</li>
-                            <li>Up Arrow Key - Rotates the block clockwise.</li>
-                            <li>Shift - Hold a block.</li>
-                        </ul>
-                    </div>
-                </div>
+            <div>
+                There was an error :(
             </div>
         )
     }
+
+    return (
+        <>
+            {Display}
+        </>
+    )
 }
 

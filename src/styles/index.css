@@ -1,8 +1,16 @@
+:root {
+    --grid-border-color: #D4F4DD;
+    --current-block-color: #949494;
+    --filled-block-color: #a50e11;
+    --game-info-bg-color: #EB9486;
+    --site-background-color: #4e5340;
+}
+
 * {
     margin: 0;
 }
 body {
-    background-color: rgb(78, 83, 64);
+    background-color: var(--site-background-color);
 }
 .site-container {
     display: flex;

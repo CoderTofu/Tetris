@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Rowdies:wght@300&display=swap');
+
+:root {
+    --game_score_font: 'Open Sans', sans-serif;
+}
+
 .game-score {
     display: flex;
     justify-content: center;
@@ -14,6 +20,6 @@
 .game-score h3 {
     color: #ffffff;
     font-size: 30px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--game_score_font);
     font-weight: lighter;
 }

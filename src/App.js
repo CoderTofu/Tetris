@@ -19,6 +19,7 @@ function App() {
       {/* // Tetris Div */}
       <BoxGrid 
       gameCondition={gameState}
+      changeGameState={changeGameState}
       filledState={[filledBoxes, updateFilledBoxes]}
       currentBlockState={[currentBlock, updateCurrentBlock]}
       />

@@ -1,5 +1,5 @@
 import Row from "./grid_resource/row";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { BLOCK_TYPES } from "../block_types";
 import { useEventListener } from "./event_listener";
@@ -30,8 +30,16 @@ export default function Boxes(props) {
     let [filledBoxes, updateFilledBoxes] = props.filledState;
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
 
+    // Variable that will decide wheter we should go to the end phase of the game
+    const changeGameState = props.changeGameState
+
     // Pause Handler
     const pause = useRef(false)
+    // Pause Screen Updater
+    let pauseScreenUpdater = props.pauseUpdate; 
+    // Shift to hold visuals
+    let shiftHoldBlock = props.changeBlockType
+    let [blockHoldVisual, changeBlockVisual] = useState() 
     const directionHandler = ({ key }) => {
         let input = String(key);
         switch (input) {
@@ -47,6 +55,7 @@ export default function Boxes(props) {
                 break;
             case "Escape":
                 pause.current = !pause.current
+                pauseScreenUpdater(pause.current)
                 break
             case "Shift":
                 if (held.current || pause.current) return
@@ -55,6 +64,7 @@ export default function Boxes(props) {
                 // We just generate a new block and take the current block type.
                 if (shiftHold.current.length === 0) {
                     generateBlock();
+                    shiftHoldBlock(`${blockHoldVisual}`)
                     shiftHold.current = block_place_holder;
                     held.current = true;
                 } 
@@ -63,9 +73,14 @@ export default function Boxes(props) {
                 // So that it can be generated again
                 else {
                     generateBlock(shiftHold.current);
+                    shiftHoldBlock(`${blockHoldVisual}`)
                     shiftHold.current = block_place_holder;
                     held.current = true;
                 }
+                break
+            // Temporary control to quit
+            case "Control":
+                gameEnd()
                 break
             default:
                 return
@@ -78,11 +93,23 @@ export default function Boxes(props) {
 
     const generateBlock = (type = "") => {
         // Random variable we need to be random to make new blocks.
-        randomType.current = type === "" ? (randomBlock(BLOCK_TYPES)) : (type);
+        let [generatedBlock, generatedType] = randomBlock(BLOCK_TYPES);
+        changeBlockVisual(generatedType)
+        // For shift to hold feature
+        if (type === "") {
+            randomType.current = generatedBlock;
+        } else {
+            randomType.current = type
+        }
         // Generate a new block
         refCurrentBlock.current = randomType.current[0];
         // We now have a block
         holding.current = true;
+    }
+
+    const gameEnd = () => {
+        changeGameState("after")
+        console.log("--Game ends here!---")
     }
 
     const update = (time = 0) => {
@@ -114,7 +141,7 @@ export default function Boxes(props) {
 
         if (dropCounter.current > dropInterval && !pause.current) {
             if (shouldGameEnd()) {
-                console.log("--Game ends here!---")
+                gameEnd()
                 return
             }   
             if (holding.current === false) generateBlock();
