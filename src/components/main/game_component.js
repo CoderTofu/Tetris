@@ -3,7 +3,7 @@ import EndEvent from "../tetris_bit/end_event";
 import WelcomeToTetris from "../tetris_bit/welcome";
 import { useState } from 'react';
 
-export default function BoxGrid(props) {
+export default function GameComponent(props) {
     let condition = props.gameCondition;
     let changeGameState = props.changeGameState
 

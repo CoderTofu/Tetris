@@ -1,6 +1,18 @@
 import { ALPHABET, GRID_HEIGHT, negativeZones } from "./GLOBAL";
 import moveCollision from "./movement_collision";
 
+function arrayUnique(array) {
+    var a = array.concat();
+    for (var i = 0; i < a.length; ++i) {
+        for (var j = i + 1; j < a.length; ++j) {
+            if (a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+}
+
 export function blockRotation(updateBlock, blocks, filledBoxes, rowMovement) {
     let coords = blocks.map(block => {
         let columnLetterIndex = ALPHABET.indexOf(block.column);
@@ -40,17 +52,29 @@ export function blockRotation(updateBlock, blocks, filledBoxes, rowMovement) {
         }
     })
 
-    // Look at all boxes if they're going to collide once they spin
-    const checkBoard = rotated.map(block => {
+    // Rotated cords if it falls in the next second
+    const falling_rotated = rotated.map(block => {
+        let next = ALPHABET.indexOf(block.column) + 1;
+        return {
+            column: ALPHABET[next],
+            row: block.row
+        }
+    })
+
+    // Combination of falling and not falling rotated block to check if conditions are right
+    const check_rotation = arrayUnique(rotated.concat(falling_rotated))
+
+    // Check to see if all rotated boxes are going to collide to other boxes once they spin
+    const checkBoard = check_rotation.map(block => {
         return filledBoxes.includes(block)
     }).includes(true);
 
     // Look if rotation will cause the block to go to negative space
-    const checkBoarder = rotated.map(block => {
+    const checkBorder = check_rotation.map(block => {
         return negativeZones.includes(`${block.column}${block.row}`)
     }).includes(true);
 
-    if (!checkBoard || !checkBoarder || moveCollision(rotated, rowMovement, filledBoxes)) updateBlock(rotated);
+    if (!checkBorder && !checkBoard && !moveCollision(check_rotation, rowMovement, filledBoxes)) updateBlock(rotated)
 
     return null
 }

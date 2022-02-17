@@ -1,3 +1,5 @@
+import "../../styles/end_event.css"
+
 export default function EndEvent(props) {
     let score = props.score;
 
@@ -6,14 +8,12 @@ export default function EndEvent(props) {
     }
 
     return (
-        <div>
-            END GAME
-            <div>
-                You scored {score}
+        <div className="end-screen-display">
+            <div className="congratulations">
+                <h2>Congratulations!</h2>
+                <h3>You scored {score}</h3>
             </div>
-            <div>
-                <button onClick={toStart}>Restart</button>
-            </div>
+            <button onClick={toStart}>Restart</button>
         </div>
     )
 }

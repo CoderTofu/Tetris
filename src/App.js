@@ -1,4 +1,4 @@
-import BoxGrid from "./components/main/box_grid";
+import GameComponent from "./components/main/game_component";
 import GameControl from "./components/main/game_control"
 import { useState } from 'react';
 
@@ -17,7 +17,7 @@ function App() {
     <div className="site-container">
 
       {/* // Tetris Div */}
-      <BoxGrid 
+      <GameComponent 
       gameCondition={gameState}
       changeGameState={changeGameState}
       filledState={[filledBoxes, updateFilledBoxes]}

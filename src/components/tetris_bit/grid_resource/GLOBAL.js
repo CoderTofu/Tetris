@@ -21,10 +21,13 @@ export let negativeZones = mock()
 export const FALL_OFFSET = 1;
 
 function mock() {
-    let negative = []
+    let negative = [];
     for (let i = 0; i < ALPHABET.length; i++) {
-        negative.push(`${ALPHABET[i]}0`)
-        negative.push(`${ALPHABET[i]}${GRID_LENGTH + 1}`)
+        negative.push(`${ALPHABET[i]}0`);
+        negative.push(`${ALPHABET[i]}${GRID_LENGTH + 1}`);
+        for (let j = 0; j < GRID_LENGTH; j++) {
+            negative.push(`${ALPHABET[i + ALPHABET.length]}${j}`);
+        }
     }
     return negative.sort()
 }
