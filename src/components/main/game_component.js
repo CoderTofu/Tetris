@@ -25,10 +25,10 @@ export default function GameComponent(props) {
     } else if (condition === "during") {
         return (
             <PlayEvent 
-            changeGameState={changeGameState}
-            currentBlockState={[currentBlock, updateCurrentBlock]}
-            filledState={[filledBoxes, updateFilledBoxes]}
-            scoreVars={[score, setScore]}
+                changeGameState={changeGameState}
+                currentBlockState={[currentBlock, updateCurrentBlock]}
+                filledState={[filledBoxes, updateFilledBoxes]}
+                scoreVars={[score, setScore]}
             />
         )
     } else if (condition === "after") {

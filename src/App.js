@@ -1,5 +1,4 @@
 import GameComponent from "./components/main/game_component";
-import GameControl from "./components/main/game_starter"
 import { useState } from 'react';
 
 function App() {

@@ -51,8 +51,9 @@ export default function PlayEvent(props) {
                         <li>Left Arrow Key - Moves the block to the left.</li>
                         <li>Right Arrow Key - Moves the block to the right.</li>
                         <li>Up Arrow Key - Rotates the block clockwise.</li>
+                        <li>Ctrl or Z key - Rotates the block counter clockwise.</li>
                         <li>Shift - Hold a block.</li>
-                        <li>Control - Quit play session.</li>
+                        <li>Alt - Quit play session.</li>
                     </ul>
                 </div>
             </div>

@@ -13,7 +13,7 @@ function arrayUnique(array) {
     return a;
 }
 
-export function blockRotation(updateBlock, blocks, filledBoxes, rowMovement) {
+export function blockRotation(updateBlock, blocks, filledBoxes, rowMovement, rotationType) {
     let coords = blocks.map(block => {
         let columnLetterIndex = ALPHABET.indexOf(block.column);
         let columnNumberIndex = GRID_HEIGHT - columnLetterIndex;
@@ -34,17 +34,28 @@ export function blockRotation(updateBlock, blocks, filledBoxes, rowMovement) {
         }
     });
 
-    // This is clockwise
-    const compute2 = compute1.map(computed => {
-        const newX = (0 * computed.row) + (1 * computed.column);
-        const newY = (-1 * computed.row) + (0 * computed.column);
-        return {
-            column: newY + origin.column,
-            row: newX + origin.row
-        }
-    })
+    let computation2 = undefined;
+    if (rotationType === "clockwise") {
+        computation2 = compute1.map(computed => {
+            const newX = (0 * computed.row) + (1 * computed.column);
+            const newY = (-1 * computed.row) + (0 * computed.column);
+            return {
+                column: newY + origin.column,
+                row: newX + origin.row
+            }
+        })
+    } else if (rotationType === "counter clockwise") {
+        computation2 = compute1.map(computed => {
+            const newX = (0 * computed.row) + (-1 * computed.column);
+            const newY = (1 * computed.row) + (0 * computed.column);
+            return {
+                column: newY + origin.column,
+                row: newX + origin.row
+            }
+        })
+    }
 
-    const rotated = compute2.map(compute => {
+    const rotated = computation2.map(compute => {
         const numToLetterIndex = 20 - compute.column;
         return {
             column: ALPHABET[numToLetterIndex],

@@ -51,7 +51,12 @@ export default function Boxes(props) {
                 break;
             case "ArrowUp":
                 if (pause.current) return
-                blockRotation(updateCurrentBlock, currentBlock, filledBoxes, refRowMovement.current);
+                blockRotation(updateCurrentBlock, currentBlock, filledBoxes, refRowMovement.current, "clockwise");
+                break;
+            case "z":    
+            case "Control":
+                if (pause.current) return
+                blockRotation(updateCurrentBlock, currentBlock, filledBoxes, refRowMovement.current, "counter clockwise");
                 break;
             case "Escape":
                 pause.current = !pause.current
@@ -79,10 +84,11 @@ export default function Boxes(props) {
                 }
                 break
             // Temporary control to quit
-            case "Control":
+            case "Alt":
                 gameEnd()
                 break
             default:
+                console.log(input)
                 return
         }
     };
