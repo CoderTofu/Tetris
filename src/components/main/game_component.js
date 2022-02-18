@@ -1,3 +1,4 @@
+import GameControl from "./game_starter";
 import PlayEvent from "../tetris_bit/play_event";
 import EndEvent from "../tetris_bit/end_event";
 import WelcomeToTetris from "../tetris_bit/welcome";
@@ -14,22 +15,29 @@ export default function GameComponent(props) {
     
     let [score, setScore] = useState(0)
 
-    let Display = undefined
-
     if (condition === "pending") {
-         Display = <WelcomeToTetris />
+        return (
+            <>
+                <WelcomeToTetris />
+                <GameControl changeFunc={changeGameState}/>
+            </>
+        )
     } else if (condition === "during") {
-        Display = <PlayEvent 
-                changeGameState={changeGameState}
-                currentBlockState={[currentBlock, updateCurrentBlock]}
-                filledState={[filledBoxes, updateFilledBoxes]}
-                scoreVars={[score, setScore]}
-                />
+        return (
+            <PlayEvent 
+            changeGameState={changeGameState}
+            currentBlockState={[currentBlock, updateCurrentBlock]}
+            filledState={[filledBoxes, updateFilledBoxes]}
+            scoreVars={[score, setScore]}
+            />
+        )
     } else if (condition === "after") {
-        Display = <EndEvent 
+        return (
+            <EndEvent
                 changeGameState={changeGameState}
                 score={score}
-                />
+            />
+        )
     } else {
         return (
             <div>
@@ -37,11 +45,5 @@ export default function GameComponent(props) {
             </div>
         )
     }
-
-    return (
-        <>
-            {Display}
-        </>
-    )
 }
 

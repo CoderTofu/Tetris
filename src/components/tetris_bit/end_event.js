@@ -13,7 +13,7 @@ export default function EndEvent(props) {
                 <h2>Congratulations!</h2>
                 <h3>You scored {score}</h3>
             </div>
-            <button onClick={toStart}>Restart</button>
+            <button onClick={toStart} className="btn">Restart</button>
         </div>
     )
 }

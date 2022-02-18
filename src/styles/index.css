@@ -20,3 +20,20 @@ body {
     width: 100vw;
     height: 100vh;
 }
+
+.btn {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    padding: 0.5rem 1rem;
+    margin: 1rem;
+    cursor: pointer;
+    border: 2px solid #fff;
+    color: #fff;
+    background-color: #000;
+    transition: transform 0.1s ease-in-out;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+}

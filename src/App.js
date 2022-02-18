@@ -1,5 +1,5 @@
 import GameComponent from "./components/main/game_component";
-import GameControl from "./components/main/game_control"
+import GameControl from "./components/main/game_starter"
 import { useState } from 'react';
 
 function App() {
@@ -23,14 +23,6 @@ function App() {
       filledState={[filledBoxes, updateFilledBoxes]}
       currentBlockState={[currentBlock, updateCurrentBlock]}
       />
-
-      {/* Tetris Control Div */}
-      {gameState === "pending" ? 
-      <GameControl
-        changeFunc={changeGameState}
-        filledState={updateFilledBoxes}
-        currentBlockState={updateCurrentBlock}
-      />: ""}
 
     </div>
   );
