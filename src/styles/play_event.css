@@ -88,6 +88,10 @@
         background-color: var(--filled-block-color);
     }
 
+    .box.shadow {
+        background-color: greenyellow;
+    }
+
 /* About game information */
     .game-information {
         display: flex;

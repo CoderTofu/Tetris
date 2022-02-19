@@ -9,6 +9,7 @@ import { ALPHABET, GRID_HEIGHT, FALL_OFFSET, GRID_LENGTH } from "./grid_resource
 import StackedRow from "./grid_resource/stacked_row";
 import { blockRotation } from "./grid_resource/rotation";
 import updateFall from "./grid_resource/update_fall";
+import fallingBlockShadow from "./grid_resource/falling_block_shadow";
 import { fallCollision } from './grid_resource/fall_collision';
 import { checkClearRow } from "./grid_resource/clear_row";
 
@@ -29,6 +30,10 @@ export default function Boxes(props) {
     const refRowMovement = useRef(0);
     let [filledBoxes, updateFilledBoxes] = props.filledState;
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
+
+    // Feature for block shadow during gameplay
+    let [blockShadow, updateBlockShadow] = useState([])
+    const refBlockShadow = useRef();
 
     // Variable that will decide wheter we should go to the end phase of the game
     const changeGameState = props.changeGameState
@@ -156,7 +161,8 @@ export default function Boxes(props) {
                 return block.column;
             });
 
-            if (columns.includes(ALPHABET[GRID_HEIGHT - FALL_OFFSET]) || fallCollision(refCurrentBlock.current, refFilledBoxes.current)) {
+            if (columns.includes(ALPHABET[GRID_HEIGHT - FALL_OFFSET]) || 
+                fallCollision(refCurrentBlock.current, refFilledBoxes.current)) {
                 // Now, we don't have a block
                 holding.current = false;
                 refFilledBoxes.current = [
@@ -169,6 +175,7 @@ export default function Boxes(props) {
                 held.current = false;
                 checkClearRow(updateFilledBoxes, refFilledBoxes.current, refCurrentBlock.current)
             } else {
+                fallingBlockShadow(updateBlockShadow, refBlockShadow.current, refRowMovement.current, filledBoxes)
                 updateFall(updateCurrentBlock, refCurrentBlock.current, refRowMovement.current, filledBoxes)
                 refRowMovement.current = 0;
             }
@@ -188,13 +195,14 @@ export default function Boxes(props) {
     useEffect(() => {
         refCurrentBlock.current = currentBlock
         refFilledBoxes.current = filledBoxes
+        refBlockShadow.current = "name"
     }, [currentBlock, filledBoxes])
 
     useEventListener("keydown", directionHandler);
 
     return (
         <>
-            <StackedRow block={currentBlock} grid={filledBoxes} row={Row()} />
+            <StackedRow block={currentBlock} grid={filledBoxes} blockShadow={blockShadow} row={Row()} />
         </>
     )
 }
