@@ -92,6 +92,10 @@ export default function Boxes(props) {
             case "Alt":
                 gameEnd()
                 break
+            case " ":
+                updateFilledBoxes([...filledBoxes, ...blockShadow])
+                generateBlock()
+                break
             default:
                 console.log(input)
                 return
@@ -175,8 +179,8 @@ export default function Boxes(props) {
                 held.current = false;
                 checkClearRow(updateFilledBoxes, refFilledBoxes.current, refCurrentBlock.current)
             } else {
-                fallingBlockShadow(updateBlockShadow, refBlockShadow.current, refRowMovement.current, filledBoxes)
                 updateFall(updateCurrentBlock, refCurrentBlock.current, refRowMovement.current, filledBoxes)
+                fallingBlockShadow(updateBlockShadow, refCurrentBlock.current, refRowMovement.current, filledBoxes)
                 refRowMovement.current = 0;
             }
 
@@ -195,8 +199,8 @@ export default function Boxes(props) {
     useEffect(() => {
         refCurrentBlock.current = currentBlock
         refFilledBoxes.current = filledBoxes
-        refBlockShadow.current = "name"
-    }, [currentBlock, filledBoxes])
+        refBlockShadow.current = blockShadow
+    }, [currentBlock, filledBoxes, blockShadow])
 
     useEventListener("keydown", directionHandler);
 

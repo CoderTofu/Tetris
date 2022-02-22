@@ -7,8 +7,6 @@ function StackedRow(props) {
     const CURRENT_GRID = props.grid;
     const CURRENT_SHADOW = props.blockShadow;
 
-    console.log(CURRENT_SHADOW)
-
     // Stack rows to make our grid.
     let stack = [];
 
