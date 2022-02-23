@@ -43,8 +43,8 @@ export default function Boxes(props) {
     // Pause Screen Updater
     let pauseScreenUpdater = props.pauseUpdate; 
     // Shift to hold visuals
-    let shiftHoldBlock = props.changeBlockType
-    let [blockHoldVisual, changeBlockVisual] = useState() 
+    let shiftHoldBlock = props.changeBlockType;
+    let [blockHoldVisual, changeBlockVisual] = useState() ;
     const directionHandler = ({ key }) => {
         let input = String(key);
         switch (input) {
@@ -93,8 +93,9 @@ export default function Boxes(props) {
                 gameEnd()
                 break
             case " ":
-                updateFilledBoxes([...filledBoxes, ...blockShadow])
-                generateBlock()
+                if (pause.current) return
+                // update current block to block shadow
+                updateCurrentBlock(blockShadow);
                 break
             default:
                 console.log(input)
@@ -106,6 +107,7 @@ export default function Boxes(props) {
     const previousTimeRef = useRef(0);
     const dropInterval = 250;
 
+    // To generate and replace current block
     const generateBlock = (type = "") => {
         // Random variable we need to be random to make new blocks.
         let [generatedBlock, generatedType] = randomBlock(BLOCK_TYPES);
@@ -114,7 +116,7 @@ export default function Boxes(props) {
         if (type === "") {
             randomType.current = generatedBlock;
         } else {
-            randomType.current = type
+            randomType.current = type;
         }
         // Generate a new block
         refCurrentBlock.current = randomType.current[0];
@@ -159,7 +161,9 @@ export default function Boxes(props) {
                 gameEnd()
                 return
             }   
-            if (holding.current === false) generateBlock();
+            if (holding.current === false) {
+                generateBlock()
+            };
 
             let columns = refCurrentBlock.current.map(block => {
                 return block.column;
@@ -176,14 +180,14 @@ export default function Boxes(props) {
                 updateFilledBoxes([
                     ...refFilledBoxes.current,
                 ]);
+                updateBlockShadow([])
                 held.current = false;
                 checkClearRow(updateFilledBoxes, refFilledBoxes.current, refCurrentBlock.current)
             } else {
-                updateFall(updateCurrentBlock, refCurrentBlock.current, refRowMovement.current, filledBoxes)
                 fallingBlockShadow(updateBlockShadow, refCurrentBlock.current, refRowMovement.current, filledBoxes)
+                updateFall(updateCurrentBlock, refCurrentBlock.current, refRowMovement.current, filledBoxes)
                 refRowMovement.current = 0;
             }
-
             dropCounter.current = 0;
         }
 

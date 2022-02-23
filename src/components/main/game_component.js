@@ -5,13 +5,12 @@ import WelcomeToTetris from "../tetris_bit/welcome";
 import { useState } from 'react';
 
 export default function GameComponent(props) {
-    let condition = props.gameCondition;
-    let changeGameState = props.changeGameState
+    let [condition, changeGameState] = props.gameCondition;
 
     // Passed from App to GameControl and Boxgrid(this)
     // And from BoxGrid to Boxes
-    let [filledBoxes, updateFilledBoxes] = props.filledState;
-    let [currentBlock, updateCurrentBlock] = props.currentBlockState;
+    let [filledBoxes, updateFilledBoxes] = useState([]);
+    let [currentBlock, updateCurrentBlock] = useState([]);
     
     let [score, setScore] = useState(0)
 

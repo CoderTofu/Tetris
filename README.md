@@ -1,14 +1,10 @@
 # Tetris
 A small game project made to showcase my React skills.
 
-# Features currently working ON
+# February 22, 2022
+The project would now be regarded as done function wise.
 
-### Scores
-    Add score system
+The game is complete with multitudes of functions one could expect in a tetris game.
 
-### GUI
-    Make gui more attractive
-
-### HOLD
-    Display the type we are holding.
+Docs for this project will be provided in the docs folder.
 
