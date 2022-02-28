@@ -52,6 +52,10 @@
             align-items: center;
         }
 
+        .game-information.small-screen .hold-container {
+            display: none;
+        }
+
         .block-type {
             max-width: 100px;
             max-height: 100px;
@@ -102,6 +106,10 @@
         width: 250px;
     }
 
+    .game-information.small-screen {
+        display: none;
+    }
+
     /* Score div is in score.css */
 
     .game-controls {
@@ -112,3 +120,62 @@
         border-radius: 10px;
         background-color: var(--game-info-bg-color);
     }
+
+    .game-controls h2 {
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .game-controls ul {
+        padding-left: 1.5rem;
+        list-style-type: square;
+    }
+
+    .game-controls ul li {
+        font-size: 15px;
+    }
+
+@media (max-width: 750px) {
+    .game-controls {
+        padding: 5px;
+    }
+
+    .game-controls h2 {
+        font-size: 25px;
+    }
+
+    .game-controls ul {
+        padding-left: 1.2rem;
+    }
+
+    .game-controls ul li {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 700px) {
+    .game-information {
+        display: none;
+    }
+
+    .game-information.small-screen {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .hold-container {
+        display: none;
+    }
+
+    .game-information.small-screen .hold-container {
+        display: flex;
+        width: 100px;
+        height: 100px;
+        margin: 0px;
+    }
+
+    .block-type {
+        max-width: 80px;
+        max-height: 80px;
+    }
+}

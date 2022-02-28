@@ -23,3 +23,15 @@
     font-family: var(--game_score_font);
     font-weight: lighter;
 }
+
+@media (max-width: 750px) {
+    .game-score {
+        height: 50px;
+        width: 200px;
+        margin-bottom: 20px;
+    }
+
+    .game-score h3 {
+        font-size: 25px;
+    }
+}

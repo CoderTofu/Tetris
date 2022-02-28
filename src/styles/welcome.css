@@ -7,3 +7,35 @@
     border-bottom: dotted #fff 2px;
     margin-bottom: 10px;
 }
+
+.welcome h1 {
+    font-size: 30px;
+}
+
+.welcome h2 {
+    font-size: 20px;
+}
+
+.welcome h3 {
+    font-size: 15px;
+    opacity: 0.6;
+}
+
+@media (max-width: 600px) {
+    .welcome {
+        padding: 0.5rem;
+    }
+
+    .welcome h1 {
+        font-size: 20px;
+    }
+
+    .welcome h2 {
+        font-size: 15px;
+    }
+
+    .welcome h3 {
+        font-size: 10px;
+        opacity: 0.6;
+    }
+}

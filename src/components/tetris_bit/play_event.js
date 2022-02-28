@@ -24,6 +24,17 @@ export default function PlayEvent(props) {
                     <img src={`/blocks/${blockType}.png`} className="block-type" alt="" />
                 </div>
 
+                <div className="game-information small-screen">
+                    <GameScore
+                        score={score}
+                        setScore={setScore}
+                        filledState={filledBoxes}
+                    />
+                    <div className="hold-container">
+                        <img src={`/blocks/${blockType}.png`} className="block-type" alt="" />
+                    </div>
+                </div>
+
                 <div className="game-border">
                     <div className="grid-container">
                         {<Boxes
