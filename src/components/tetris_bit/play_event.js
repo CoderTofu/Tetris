@@ -24,6 +24,17 @@ export default function PlayEvent(props) {
                     <img src={`/blocks/${blockType}.png`} className="block-type" alt="" />
                 </div>
 
+                <div className="game-information small-screen">
+                    <GameScore
+                        score={score}
+                        setScore={setScore}
+                        filledState={filledBoxes}
+                    />
+                    <div className="hold-container">
+                        <img src={`/blocks/${blockType}.png`} className="block-type" alt="" />
+                    </div>
+                </div>
+
                 <div className="game-border">
                     <div className="grid-container">
                         {<Boxes
@@ -51,8 +62,10 @@ export default function PlayEvent(props) {
                         <li>Left Arrow Key - Moves the block to the left.</li>
                         <li>Right Arrow Key - Moves the block to the right.</li>
                         <li>Up Arrow Key - Rotates the block clockwise.</li>
+                        <li>Ctrl or Z key - Rotates the block counter clockwise.</li>
+                        <li>Space - Move the block down to its shadow.</li>
                         <li>Shift - Hold a block.</li>
-                        <li>Control - Quit play session.</li>
+                        <li>Alt - Quit play session.</li>
                     </ul>
                 </div>
             </div>

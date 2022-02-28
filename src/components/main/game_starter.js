@@ -8,15 +8,9 @@ export default function GameControl(props) {
         changeGameState(a => a = "during");
     }
 
-    // function resetFunction() {
-    //     changeGameState(a => a = "pending");
-    //     updateFilledBoxes([]);
-    //     updateCurrentBlock([]);
-    // }
-
     return (
         <div>
-            <button onClick={startFunction}>Start</button>
+            <button onClick={startFunction} className="btn">Start</button>
         </div>
     )
 }

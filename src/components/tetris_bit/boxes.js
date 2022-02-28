@@ -9,6 +9,7 @@ import { ALPHABET, GRID_HEIGHT, FALL_OFFSET, GRID_LENGTH } from "./grid_resource
 import StackedRow from "./grid_resource/stacked_row";
 import { blockRotation } from "./grid_resource/rotation";
 import updateFall from "./grid_resource/update_fall";
+import fallingBlockShadow from "./grid_resource/falling_block_shadow";
 import { fallCollision } from './grid_resource/fall_collision';
 import { checkClearRow } from "./grid_resource/clear_row";
 
@@ -30,6 +31,10 @@ export default function Boxes(props) {
     let [filledBoxes, updateFilledBoxes] = props.filledState;
     let [currentBlock, updateCurrentBlock] = props.currentBlockState;
 
+    // Feature for block shadow during gameplay
+    let [blockShadow, updateBlockShadow] = useState([])
+    const refBlockShadow = useRef();
+
     // Variable that will decide wheter we should go to the end phase of the game
     const changeGameState = props.changeGameState
 
@@ -38,8 +43,8 @@ export default function Boxes(props) {
     // Pause Screen Updater
     let pauseScreenUpdater = props.pauseUpdate; 
     // Shift to hold visuals
-    let shiftHoldBlock = props.changeBlockType
-    let [blockHoldVisual, changeBlockVisual] = useState() 
+    let shiftHoldBlock = props.changeBlockType;
+    let [blockHoldVisual, changeBlockVisual] = useState() ;
     const directionHandler = ({ key }) => {
         let input = String(key);
         switch (input) {
@@ -51,7 +56,12 @@ export default function Boxes(props) {
                 break;
             case "ArrowUp":
                 if (pause.current) return
-                blockRotation(updateCurrentBlock, currentBlock, filledBoxes, refRowMovement.current);
+                blockRotation(updateCurrentBlock, currentBlock, filledBoxes, refRowMovement.current, "clockwise");
+                break;
+            case "z":    
+            case "Control":
+                if (pause.current) return
+                blockRotation(updateCurrentBlock, currentBlock, filledBoxes, refRowMovement.current, "counter clockwise");
                 break;
             case "Escape":
                 pause.current = !pause.current
@@ -79,10 +89,16 @@ export default function Boxes(props) {
                 }
                 break
             // Temporary control to quit
-            case "Control":
+            case "Alt":
                 gameEnd()
                 break
+            case " ":
+                if (pause.current) return
+                // update current block to block shadow
+                updateCurrentBlock(blockShadow);
+                break
             default:
+                console.log(input)
                 return
         }
     };
@@ -91,6 +107,7 @@ export default function Boxes(props) {
     const previousTimeRef = useRef(0);
     const dropInterval = 250;
 
+    // To generate and replace current block
     const generateBlock = (type = "") => {
         // Random variable we need to be random to make new blocks.
         let [generatedBlock, generatedType] = randomBlock(BLOCK_TYPES);
@@ -99,7 +116,7 @@ export default function Boxes(props) {
         if (type === "") {
             randomType.current = generatedBlock;
         } else {
-            randomType.current = type
+            randomType.current = type;
         }
         // Generate a new block
         refCurrentBlock.current = randomType.current[0];
@@ -144,13 +161,16 @@ export default function Boxes(props) {
                 gameEnd()
                 return
             }   
-            if (holding.current === false) generateBlock();
+            if (holding.current === false) {
+                generateBlock()
+            };
 
             let columns = refCurrentBlock.current.map(block => {
                 return block.column;
             });
 
-            if (columns.includes(ALPHABET[GRID_HEIGHT - FALL_OFFSET]) || fallCollision(refCurrentBlock.current, refFilledBoxes.current)) {
+            if (columns.includes(ALPHABET[GRID_HEIGHT - FALL_OFFSET]) || 
+                fallCollision(refCurrentBlock.current, refFilledBoxes.current)) {
                 // Now, we don't have a block
                 holding.current = false;
                 refFilledBoxes.current = [
@@ -160,13 +180,14 @@ export default function Boxes(props) {
                 updateFilledBoxes([
                     ...refFilledBoxes.current,
                 ]);
+                updateBlockShadow([])
                 held.current = false;
                 checkClearRow(updateFilledBoxes, refFilledBoxes.current, refCurrentBlock.current)
             } else {
+                fallingBlockShadow(updateBlockShadow, refCurrentBlock.current, refRowMovement.current, filledBoxes)
                 updateFall(updateCurrentBlock, refCurrentBlock.current, refRowMovement.current, filledBoxes)
                 refRowMovement.current = 0;
             }
-
             dropCounter.current = 0;
         }
 
@@ -182,13 +203,14 @@ export default function Boxes(props) {
     useEffect(() => {
         refCurrentBlock.current = currentBlock
         refFilledBoxes.current = filledBoxes
-    }, [currentBlock, filledBoxes])
+        refBlockShadow.current = blockShadow
+    }, [currentBlock, filledBoxes, blockShadow])
 
     useEventListener("keydown", directionHandler);
 
     return (
         <>
-            <StackedRow block={currentBlock} grid={filledBoxes} row={Row()} />
+            <StackedRow block={currentBlock} grid={filledBoxes} blockShadow={blockShadow} row={Row()} />
         </>
     )
 }
